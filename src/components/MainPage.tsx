@@ -91,6 +91,8 @@ const MainPage: React.FC = () => {
             <td>Symbol</td>
             <td>Price(USD)</td>
             <td>Volume(24h)</td>
+            <td>Change(30d)</td>
+            <td>Change(1d)</td>
             <td>Change(1h)</td>
             <td>Change(15min)</td>
           </tr>
@@ -100,7 +102,7 @@ const MainPage: React.FC = () => {
             .map(({ ...data }: Idata) => (
               <tr key={data.id}>
                 <td>
-                  <a href={"historical/" + data.id}>{data.name}</a>
+                  <a href={"historical/" + data.id}><b>{data.name}</b></a>
                 </td>{" "}
                 <td>
                   <span className="tag is-info is-warning">{data.symbol}</span>
@@ -119,6 +121,24 @@ const MainPage: React.FC = () => {
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   $
                 </td>
+                {checkIfNegative(data.quotes.USD.percent_change_30d) ? (
+                  <td className="has-text-danger">
+                    {data.quotes.USD.percent_change_30d}%
+                  </td>
+                ) : (
+                  <td className="has-text-success">
+                    {data.quotes.USD.percent_change_30d}%
+                  </td>
+                )}
+                {checkIfNegative(data.quotes.USD.percent_change_24h) ? (
+                  <td className="has-text-danger">
+                    {data.quotes.USD.percent_change_24h}%
+                  </td>
+                ) : (
+                  <td className="has-text-success">
+                    {data.quotes.USD.percent_change_24h}%
+                  </td>
+                )}
                 {checkIfNegative(data.quotes.USD.percent_change_1h) ? (
                   <td className="has-text-danger">
                     {data.quotes.USD.percent_change_1h}%
@@ -144,7 +164,7 @@ const MainPage: React.FC = () => {
 
         <tfoot>
           <tr>
-            <td colSpan={6}>
+            <td colSpan={8}>
               <div className="columns">
                 <div className="column is-one-quarter">
                   {checkIfFirstPage() ? (
@@ -222,8 +242,8 @@ const MainPage: React.FC = () => {
             </td>
           </tr>
           <tr>
-            <td colSpan={6}>
-              <div className="columns">
+            <td colSpan={8}>
+              <div className="columns is-justify-content-center">
                 Currently displaying {skipPage[0]} - {skipPage[1]}{" "}
                 cryptocurrencies sorted by volume
               </div>
