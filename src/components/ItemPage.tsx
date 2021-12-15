@@ -24,12 +24,16 @@ export interface IcoinInfo {
   id: string;
   name: string;
   symbol: string;
+  description: string;
+  first_data_at: string;
 }
 
 const ItemPage: React.FC = () => {
-  /*var firstInMonth = new Date();
+  var firstInMonth = new Date();
   firstInMonth.setDate(0);
-  const [startDate, setStartDate] = useState<Date>(firstInMonth)*/
+  const [startDate, setStartDate] = useState<String | undefined>(
+    firstInMonth.toISOString()
+  );
   const [interval, setInterval] = useState<String>("1d");
   let { id } = useParams();
   const [historicalData, setData] = useState<IhistoricalData[]>([]);
@@ -38,7 +42,7 @@ const ItemPage: React.FC = () => {
       "https://api.coinpaprika.com/v1/tickers/" +
       id +
       "/historical?start=" +
-      /*startDate*/ "2020-11-24T05:15:00Z" +
+      startDate /*"2020-11-24T05:15:00Z"*/ +
       "&interval=" +
       interval;
     var headers = {};
@@ -50,7 +54,7 @@ const ItemPage: React.FC = () => {
     })
       .then((res) => res.json())
       .then(setData);
-  }, [interval]);
+  }, [interval, startDate]);
 
   const [coinInfo, setCoinInfo] = useState<IcoinInfo>();
   useEffect(() => {
@@ -82,16 +86,49 @@ const ItemPage: React.FC = () => {
   const interval365d = () => {
     setInterval("365d");
   };
-
+  const lastDay = () => {
+    var ourDate = new Date();
+    var pastDate = ourDate.getDate() - 1;
+    ourDate.setDate(pastDate);
+    setStartDate(ourDate.toISOString());
+  };
+  const lastWeek = () => {
+    var ourDate = new Date();
+    var pastDate = ourDate.getDate() - 7;
+    ourDate.setDate(pastDate);
+    setStartDate(ourDate.toISOString());
+  };
+  const lastMonth = () => {
+    var ourDate = new Date();
+    var pastDate = ourDate.getDate() - 30;
+    ourDate.setDate(pastDate);
+    setStartDate(ourDate.toISOString());
+  };
+  const lastYear = () => {
+    var ourDate = new Date();
+    var pastDate = ourDate.getDate() - 365;
+    ourDate.setDate(pastDate);
+    setStartDate(ourDate.toISOString());
+  };
+  const fromStart = () => {
+    const dateStart = coinInfo?.first_data_at;
+    setStartDate(dateStart);
+  };
   return (
     <>
-      <div className="columns is-vcentered is-centered m-2">
+      <div className="columns is-vcentered is-centered mt-5">
         <h1>{coinInfo?.name}</h1>
       </div>
+      <div className="has-text-centered is-align-content-stretch m-2">
+      <hr />
+        <h2>{coinInfo?.description}</h2>
+        <hr />
+      </div>
       <div className="is-max-widescreen is-flex">
-        <div className="columns is-centered m-4">
-          <div className="column">
-            <h2>Price:</h2>
+        <div className="columns is-centered m-1">
+          <div className="column has-text-centered">
+            <h2>Volume:</h2>
+            
             <div className="column">
               <AreaChart
                 width={550}
@@ -105,12 +142,13 @@ const ItemPage: React.FC = () => {
                     <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="timestamp" />
+                <XAxis dataKey="timestamp" interval={5} angle={0} dx={20} />
                 <YAxis />
-                <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid strokeDasharray="0 0" />
                 <Tooltip />
                 <Area
                   type="monotone"
+                  activeDot={{ r: 3 }}
                   dataKey="volume_24h"
                   stroke="#8884d8"
                   fillOpacity={1}
@@ -118,33 +156,87 @@ const ItemPage: React.FC = () => {
                 />
               </AreaChart>
             </div>
-            <div>
-              <h3>Intervals:</h3>
-              <button onClick={interval1d}>1 Day</button>
-              <button onClick={interval7d}>7 Days</button>
-              <button onClick={interval30d}>30 Days</button>
-              <button onClick={interval90d}>90 Days</button>
-              <button onClick={interval365d}>365 Day</button>
-            </div>
           </div>
         </div>
-        <div className="columns is-centered m-4">
-          <div className="column is-centered">
-            <h2>Volume:</h2>
-            <div className="column is-centered">
+        <div className="columns is-centered m-1">
+          <div className="column has-text-centered">
+            <h2>Price:</h2>
+            <div className="column">
               <LineChart
                 width={550}
                 height={300}
                 data={historicalData}
                 margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
               >
-                <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid strokeDasharray="0 0" />
                 <XAxis dataKey="timestamp" />
                 <YAxis />
                 <Tooltip />
                 <Line type="monotone" dataKey="price" stroke="#8884d8" />
               </LineChart>
             </div>
+          </div>
+        </div>
+      </div>
+      <div className="columns is-vcentered is-centered has-text-centered">
+        <div className="column is-half is-vcentered is-centered">
+          <div className="">
+            <h3 className="m-2">Intervals:</h3>
+          </div>
+          <div className="">
+            <button
+              className="button is-primary is-small is-outlined m-1" 
+              onClick={interval1d}
+            >
+              1 Day
+            </button>
+            <button
+              className="button is-primary is-small is-outlined m-1"
+              onClick={interval7d}
+            >
+              7 Days
+            </button>
+            <button
+              className="button is-primary is-small is-outlined m-1"
+              onClick={interval30d}
+            >
+              30 Days
+            </button>
+            <button
+              className="button is-primary is-small is-outlined m-1"
+              onClick={interval90d}
+            >
+              90 Days
+            </button>
+            <button
+              className="button is-primary is-small is-outlined m-1"
+              onClick={interval365d}
+            >
+              365 Days
+            </button>
+          </div>
+        </div>
+        <div className="column is-half is centered">
+          <div>
+            <h3 className="m-2">Date from:</h3>
+          </div>
+          <div className="">
+            <button className="button is-primary is-active
+             is-small is-outlined m-1" onClick={lastDay}>
+              Day
+            </button>
+            <button className="button is-primary is-small is-outlined m-1" onClick={lastWeek}>
+              Week
+            </button>
+            <button className="button is-primary is-small is-outlined m-1" onClick={lastMonth}>
+              Month
+            </button>
+            <button className="button is-primary is-small is-outlined m-1" onClick={lastYear}>
+              Year
+            </button>
+            <button className="button is-primary is-small is-outlined m-1" onClick={fromStart}>
+              From start
+            </button>
           </div>
         </div>
       </div>

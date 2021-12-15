@@ -83,38 +83,38 @@ const MainPage: React.FC = () => {
     }
   };
   return (
-    <div>
+    <div className="columns m-1">
       <table className="table is-striped is-hoverable is-fullwidth">
         <thead>
           <tr>
-            <td>Name</td>
-            <td>Symbol</td>
-            <td>Price(USD)</td>
-            <td>Volume(24h)</td>
-            <td>Change(30d)</td>
-            <td>Change(1d)</td>
-            <td>Change(1h)</td>
-            <td>Change(15min)</td>
+            <td className="">Name</td>
+            <td className="has-text-centered">Symbol</td>
+            <td className="has-text-centered">Price(USD)</td>
+            <td className="has-text-centered">Volume(24h)</td>
+            <td className="has-text-centered">Change(30d)</td>
+            <td className="has-text-centered">Change(1d)</td>
+            <td className="has-text-centered">Change(1h)</td>
+            <td className="has-text-centered">Change(15min)</td>
           </tr>
         </thead>
         <tbody>
           {data
             .map(({ ...data }: Idata) => (
               <tr key={data.id}>
-                <td>
+                <td className="">
                   <a href={"historical/" + data.id}><b>{data.name}</b></a>
                 </td>{" "}
-                <td>
+                <td className="has-text-centered">
                   <span className="tag is-info is-warning">{data.symbol}</span>
                 </td>{" "}
-                <td>
+                <td className="has-text-centered">
                   {data.quotes.USD.price
                     .toFixed(2)
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   $
                 </td>{" "}
-                <td>
+                <td className="has-text-centered">
                   {data.quotes.USD.volume_24h
                     .toFixed(2)
                     .toString()
@@ -122,38 +122,38 @@ const MainPage: React.FC = () => {
                   $
                 </td>
                 {checkIfNegative(data.quotes.USD.percent_change_30d) ? (
-                  <td className="has-text-danger">
+                  <td className="has-text-danger has-text-centered">
                     {data.quotes.USD.percent_change_30d}%
                   </td>
                 ) : (
-                  <td className="has-text-success">
+                  <td className="has-text-success has-text-centered">
                     {data.quotes.USD.percent_change_30d}%
                   </td>
                 )}
                 {checkIfNegative(data.quotes.USD.percent_change_24h) ? (
-                  <td className="has-text-danger">
+                  <td className="has-text-danger has-text-centered">
                     {data.quotes.USD.percent_change_24h}%
                   </td>
                 ) : (
-                  <td className="has-text-success">
+                  <td className="has-text-success has-text-centered">
                     {data.quotes.USD.percent_change_24h}%
                   </td>
                 )}
                 {checkIfNegative(data.quotes.USD.percent_change_1h) ? (
-                  <td className="has-text-danger">
+                  <td className="has-text-danger has-text-centered">
                     {data.quotes.USD.percent_change_1h}%
                   </td>
                 ) : (
-                  <td className="has-text-success">
+                  <td className="has-text-success has-text-centered">
                     {data.quotes.USD.percent_change_1h}%
                   </td>
                 )}
                 {checkIfNegative(data.quotes.USD.percent_change_15m) ? (
-                  <td className="has-text-danger">
+                  <td className="has-text-danger has-text-centered">
                     {data.quotes.USD.percent_change_15m}%
                   </td>
                 ) : (
-                  <td className="has-text-success">
+                  <td className="has-text-success has-text-centered">
                     {data.quotes.USD.percent_change_15m}%
                   </td>
                 )}
@@ -243,7 +243,7 @@ const MainPage: React.FC = () => {
           </tr>
           <tr>
             <td colSpan={8}>
-              <div className="columns is-justify-content-center">
+              <div className="columns is-justify-content-center m-2">
                 Currently displaying {skipPage[0]} - {skipPage[1]}{" "}
                 cryptocurrencies sorted by volume
               </div>
