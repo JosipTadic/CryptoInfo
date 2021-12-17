@@ -83,6 +83,11 @@ const MainPage: React.FC = () => {
     }
   };
   return (
+    <>
+    <div>
+    <p className="control has-icons-right"></p>
+    <input className="input" type="search" placeholder="Search..." />
+    </div>
     <div className="columns m-1">
       <table className="table is-striped is-hoverable is-fullwidth">
         <thead>
@@ -252,6 +257,7 @@ const MainPage: React.FC = () => {
         </tfoot>
       </table>
     </div>
+    </>
   );
 };
 

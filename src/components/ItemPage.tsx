@@ -11,6 +11,10 @@ import {
   AreaChart,
   Tooltip,
   Legend,
+  ComposedChart,
+  Bar,
+  Scatter,
+  ReferenceLine,
 } from "recharts";
 
 export interface IhistoricalData {
@@ -34,6 +38,8 @@ const ItemPage: React.FC = () => {
   const [startDate, setStartDate] = useState<String | undefined>(
     firstInMonth.toISOString()
   );
+  const [isTwoCharts, setIsTwoCharts] = useState<boolean>(true);
+  const [showLocalHigh, setShowLocalHigh]  = useState<boolean>(false)
   const [interval, setInterval] = useState<String>("1d");
   let { id } = useParams();
   const [historicalData, setData] = useState<IhistoricalData[]>([]);
@@ -70,6 +76,19 @@ const ItemPage: React.FC = () => {
       .then(setCoinInfo);
   }, []);
 
+  const handleIsTwoCharts = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsTwoCharts(e.target.checked);
+  };
+  const handleShowLocalHigh = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setShowLocalHigh(e.target.checked);
+  };
+  const calculateLocalHigh = (priceOrVolume: number[]) => {
+    var singlePriceOrVolume = priceOrVolume.reduce(function(a, b) {
+      return Math.max(a, b);
+    }, 0);
+    console.log(singlePriceOrVolume);
+    return singlePriceOrVolume;
+  }
   const interval1d = () => {
     setInterval("1d");
   };
@@ -120,63 +139,118 @@ const ItemPage: React.FC = () => {
         <h1>{coinInfo?.name}</h1>
       </div>
       <div className="has-text-centered is-align-content-stretch m-2">
-      <hr />
+        <hr />
         <h2>{coinInfo?.description}</h2>
         <hr />
+        
       </div>
-      <div className="is-max-widescreen is-flex">
-        <div className="columns is-centered m-1">
-          <div className="column has-text-centered">
-            <h2>Volume:</h2>
-            
-            <div className="column">
-              <AreaChart
-                width={550}
-                height={300}
-                data={historicalData}
-                margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
-              >
-                <defs>
-                  <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <XAxis dataKey="timestamp" interval={5} angle={0} dx={20} />
-                <YAxis />
-                <CartesianGrid strokeDasharray="0 0" />
-                <Tooltip />
-                <Area
-                  type="monotone"
-                  activeDot={{ r: 3 }}
-                  dataKey="volume_24h"
-                  stroke="#8884d8"
-                  fillOpacity={1}
-                  fill="url(#colorUv)"
-                />
-              </AreaChart>
-            </div>
+      {isTwoCharts ? (
+        <div className="columns has-text-centered">
+          <div className="column is-half">
+              <h2 className="mb-2">Volume:</h2>
+                <AreaChart
+                  width={550}
+                  height={300}
+                  data={historicalData}
+                  margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
+                >
+                  <defs>
+                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <XAxis dataKey="timestamp" interval={5} angle={0} dx={20} />
+                  <YAxis />
+                  <CartesianGrid stroke="lightgray" strokeDasharray={5}/>
+                  <Tooltip />
+                  <Area
+                    type="monotone"
+                    activeDot={{ r: 3 }}
+                    dataKey="volume_24h"
+                    stroke="#8884d8"
+                    fillOpacity={1}
+                    fill="url(#colorUv)"
+                  />
+                  {showLocalHigh ? <ReferenceLine y={0} label="Max volume" stroke="red" ifOverflow="extendDomain"/> : ""}
+                </AreaChart>
+                </div>
+            <div className="column is-half">
+                <h2 className="mb-2">Price:</h2>
+                <LineChart
+                  width={550}
+                  height={300}
+                  data={historicalData}
+                  margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
+                >
+                  <CartesianGrid stroke="lightgray" strokeDasharray={5}/>
+                  <XAxis dataKey="timestamp" />
+                  <YAxis />
+                  <Tooltip />
+                  {showLocalHigh ? <ReferenceLine y={0} label="Max price" stroke="red" ifOverflow="extendDomain"/> : ""}
+                  <Line type="monotone" dataKey="price" stroke="#8884d8" />
+                </LineChart>
           </div>
         </div>
-        <div className="columns is-centered m-1">
-          <div className="column has-text-centered">
-            <h2>Price:</h2>
-            <div className="column">
-              <LineChart
-                width={550}
-                height={300}
-                data={historicalData}
-                margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
-              >
-                <CartesianGrid strokeDasharray="0 0" />
-                <XAxis dataKey="timestamp" />
-                <YAxis />
-                <Tooltip />
-                <Line type="monotone" dataKey="price" stroke="#8884d8" />
-              </LineChart>
-            </div>
+      ) : (
+        <div>
+            <h2 className="has-text-centered mb-2">Volume and Price:</h2>
+            <ComposedChart
+              width={1300}
+              height={300}
+              data={historicalData}
+              margin={{
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 80,
+              }}
+            >
+              <CartesianGrid stroke="lightgray" strokeDasharray={5}/>
+              <XAxis dataKey="timestamp" scale="band" />
+              <YAxis yAxisId="left" dataKey="volume_24h" />
+              {showLocalHigh ? <ReferenceLine y={0} yAxisId="left" label="Max volume" stroke="red" ifOverflow="extendDomain"/> : ""}
+              <YAxis yAxisId="right" dataKey="price" orientation="right" />
+              {showLocalHigh ? <ReferenceLine y={0} yAxisId="right" label="Max price" stroke="red" ifOverflow="extendDomain"/> : ""}
+              
+              <Tooltip />
+              <Legend />
+              <Area
+                yAxisId="left"
+                type="monotone"
+                dataKey="volume_24h"
+                stroke="#8884d8"
+                activeDot={{ r: 2 }}
+              />
+              <Line
+                yAxisId="right"
+                type="monotone"
+                dataKey="price"
+                stroke="#82ca9d"
+              />
+              
+            </ComposedChart>
           </div>
-        </div>
+      )}
+      <div className="has-text-centered">
+        <input
+          type="checkbox"
+          id="isTwoCharts"
+          name="isTwoCharts"
+          value="isTwoCharts"
+          checked={isTwoCharts}
+          onChange={handleIsTwoCharts}
+        />
+        <label htmlFor="isTwoCharts"> Separate price and volume</label>
+        <input
+          type="checkbox"
+          id="showLocalHigh"
+          name="showLocalHigh"
+          value="showLocalHigh"
+          checked={showLocalHigh}
+          onChange={handleShowLocalHigh}
+        />
+        <label htmlFor="showLocalHigh"> Show local high line</label>
       </div>
       <div className="columns is-vcentered is-centered has-text-centered">
         <div className="column is-half is-vcentered is-centered">
@@ -185,7 +259,7 @@ const ItemPage: React.FC = () => {
           </div>
           <div className="">
             <button
-              className="button is-primary is-small is-outlined m-1" 
+              className="button is-primary is-small is-outlined m-1"
               onClick={interval1d}
             >
               1 Day
@@ -221,20 +295,35 @@ const ItemPage: React.FC = () => {
             <h3 className="m-2">Date from:</h3>
           </div>
           <div className="">
-            <button className="button is-primary is-active
-             is-small is-outlined m-1" onClick={lastDay}>
+            <button
+              className="button is-primary is-active
+             is-small is-outlined m-1"
+              onClick={lastDay}
+            >
               Day
             </button>
-            <button className="button is-primary is-small is-outlined m-1" onClick={lastWeek}>
+            <button
+              className="button is-primary is-small is-outlined m-1"
+              onClick={lastWeek}
+            >
               Week
             </button>
-            <button className="button is-primary is-small is-outlined m-1" onClick={lastMonth}>
+            <button
+              className="button is-primary is-small is-outlined m-1"
+              onClick={lastMonth}
+            >
               Month
             </button>
-            <button className="button is-primary is-small is-outlined m-1" onClick={lastYear}>
+            <button
+              className="button is-primary is-small is-outlined m-1"
+              onClick={lastYear}
+            >
               Year
             </button>
-            <button className="button is-primary is-small is-outlined m-1" onClick={fromStart}>
+            <button
+              className="button is-primary is-small is-outlined m-1"
+              onClick={fromStart}
+            >
               From start
             </button>
           </div>
@@ -258,4 +347,63 @@ export default ItemPage;
           </li>
         ))}
       </ul>
+*/
+/*
+<div className="columns has-text-centered">
+          <div className="column is-half">
+            <div>
+              <h2>Volume:</h2>
+            </div>
+            <div className="">
+              <div>
+                <AreaChart
+                  width={550}
+                  height={300}
+                  data={historicalData}
+                  margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
+                >
+                  <defs>
+                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <XAxis dataKey="timestamp" interval={5} angle={0} dx={20} />
+                  <YAxis />
+                  <CartesianGrid stroke="lightgray" strokeDasharray={5}/>
+                  <Tooltip />
+                  <Area
+                    type="monotone"
+                    activeDot={{ r: 3 }}
+                    dataKey="volume_24h"
+                    stroke="#8884d8"
+                    fillOpacity={1}
+                    fill="url(#colorUv)"
+                  />
+                  {showLocalHigh ? <ReferenceLine y={0} label="Max volume" stroke="red" ifOverflow="extendDomain"/> : ""}
+                </AreaChart>
+              </div>
+            </div>
+            <div className="column is-half">
+              <div>
+                <h2>Price:</h2>
+              </div>
+              <div className="">
+                <LineChart
+                  width={550}
+                  height={300}
+                  data={historicalData}
+                  margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
+                >
+                  <CartesianGrid stroke="lightgray" strokeDasharray={5}/>
+                  <XAxis dataKey="timestamp" />
+                  <YAxis />
+                  <Tooltip />
+                  {showLocalHigh ? <ReferenceLine y={0} label="Max price" stroke="red" ifOverflow="extendDomain"/> : ""}
+                  <Line type="monotone" dataKey="price" stroke="#8884d8" />
+                </LineChart>
+              </div>
+            </div>
+          </div>
+        </div>
 */

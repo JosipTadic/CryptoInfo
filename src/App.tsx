@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import "bulma/css/bulma.min.css";
 import "./App.css";
 import ItemPage from "./components/ItemPage";
