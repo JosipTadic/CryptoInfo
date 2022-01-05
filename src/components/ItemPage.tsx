@@ -99,8 +99,7 @@ const ItemPage: React.FC = () => {
       </div>
       <div className="has-text-centered is-align-content-stretch m-2">
         <hr />
-        <h2>{coinInfo?.description}</h2>
-        <hr />
+        {coinInfo?.description ? (<><h2>{coinInfo.description} </h2><hr /></>) : "" }
       </div>
       {showTwoCharts ? (
         <div className="columns has-text-centered">
