@@ -16,6 +16,9 @@ import {
   Scatter,
   ReferenceLine,
 } from "recharts";
+import { useHistoricalData } from "../hooks/useHistoricalData";
+
+type IntervalType = "1d" | "7d" | "30d" | "90d" | "365d";
 
 export interface IhistoricalData {
   timestamp: Date | string;
@@ -23,6 +26,7 @@ export interface IhistoricalData {
   volume_24h: number;
   market_cap: number;
 }
+export interface IhistoricalData extends Array<IhistoricalData> {}
 
 export interface IcoinInfo {
   id: string;
@@ -35,32 +39,17 @@ export interface IcoinInfo {
 const ItemPage: React.FC = () => {
   var firstInMonth = new Date();
   firstInMonth.setDate(0);
-  const [startDate, setStartDate] = useState<String | undefined>(
+  const [startDate, setStartDate] = useState<string | undefined>(
     firstInMonth.toISOString()
   );
-  const [isTwoCharts, setIsTwoCharts] = useState<boolean>(true);
-  const [showLocalHigh, setShowLocalHigh]  = useState<boolean>(false)
-  const [interval, setInterval] = useState<String>("1d");
-  let { id } = useParams();
-  const [historicalData, setData] = useState<IhistoricalData[]>([]);
-  useEffect(() => {
-    const url =
-      "https://api.coinpaprika.com/v1/tickers/" +
-      id +
-      "/historical?start=" +
-      startDate /*"2020-11-24T05:15:00Z"*/ +
-      "&interval=" +
-      interval;
-    var headers = {};
 
-    fetch(url, {
-      method: "GET",
-      mode: "cors",
-      headers: headers,
-    })
-      .then((res) => res.json())
-      .then(setData);
-  }, [interval, startDate]);
+  const [showTwoCharts, setShowTwoCharts] = useState<boolean>(true);
+  const [showLocalHigh, setShowLocalHigh] = useState<boolean>(false);
+  const [showLocalLow, setShowLocalLow] = useState<boolean>(false);
+
+  const [interval, setInterval] = useState<IntervalType>("1d");
+
+  let { id } = useParams();
 
   const [coinInfo, setCoinInfo] = useState<IcoinInfo>();
   useEffect(() => {
@@ -76,63 +65,33 @@ const ItemPage: React.FC = () => {
       .then(setCoinInfo);
   }, []);
 
+  const {
+    historicalData,
+    priceLocalHigh,
+    volumeLocalHigh,
+    priceLocalLow,
+    volumeLocalLow,
+  } = useHistoricalData(id, startDate!, interval);
   const handleIsTwoCharts = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsTwoCharts(e.target.checked);
+    setShowTwoCharts(e.target.checked);
   };
   const handleShowLocalHigh = (e: React.ChangeEvent<HTMLInputElement>) => {
     setShowLocalHigh(e.target.checked);
   };
-  const calculateLocalHigh = (priceOrVolume: number[]) => {
-    var singlePriceOrVolume = priceOrVolume.reduce(function(a, b) {
-      return Math.max(a, b);
-    }, 0);
-    console.log(singlePriceOrVolume);
-    return singlePriceOrVolume;
-  }
-  const interval1d = () => {
-    setInterval("1d");
+  const handleShowLocalLow = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setShowLocalLow(e.target.checked);
   };
-  const interval7d = () => {
-    setInterval("7d");
-    console.log({ interval });
-  };
-  const interval30d = () => {
-    setInterval("30d");
-  };
-  const interval90d = () => {
-    setInterval("90d");
-  };
-  const interval365d = () => {
-    setInterval("365d");
-  };
-  const lastDay = () => {
+
+  const getInterval = (interval: number) => {
     var ourDate = new Date();
-    var pastDate = ourDate.getDate() - 1;
+    var pastDate = ourDate.getDate() - interval;
     ourDate.setDate(pastDate);
     setStartDate(ourDate.toISOString());
   };
-  const lastWeek = () => {
-    var ourDate = new Date();
-    var pastDate = ourDate.getDate() - 7;
-    ourDate.setDate(pastDate);
-    setStartDate(ourDate.toISOString());
-  };
-  const lastMonth = () => {
-    var ourDate = new Date();
-    var pastDate = ourDate.getDate() - 30;
-    ourDate.setDate(pastDate);
-    setStartDate(ourDate.toISOString());
-  };
-  const lastYear = () => {
-    var ourDate = new Date();
-    var pastDate = ourDate.getDate() - 365;
-    ourDate.setDate(pastDate);
-    setStartDate(ourDate.toISOString());
-  };
-  const fromStart = () => {
+  /*const fromStart = () => {
     const dateStart = coinInfo?.first_data_at;
     setStartDate(dateStart);
-  };
+  };*/
   return (
     <>
       <div className="columns is-vcentered is-centered mt-5">
@@ -142,115 +101,223 @@ const ItemPage: React.FC = () => {
         <hr />
         <h2>{coinInfo?.description}</h2>
         <hr />
-        
       </div>
-      {isTwoCharts ? (
+      {showTwoCharts ? (
         <div className="columns has-text-centered">
           <div className="column is-half">
-              <h2 className="mb-2">Volume:</h2>
-                <AreaChart
-                  width={550}
-                  height={300}
-                  data={historicalData}
-                  margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
-                >
-                  <defs>
-                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                      <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <XAxis dataKey="timestamp" interval={5} angle={0} dx={20} />
-                  <YAxis />
-                  <CartesianGrid stroke="lightgray" strokeDasharray={5}/>
-                  <Tooltip />
-                  <Area
-                    type="monotone"
-                    activeDot={{ r: 3 }}
-                    dataKey="volume_24h"
-                    stroke="#8884d8"
-                    fillOpacity={1}
-                    fill="url(#colorUv)"
-                  />
-                  {showLocalHigh ? <ReferenceLine y={0} label="Max volume" stroke="red" ifOverflow="extendDomain"/> : ""}
-                </AreaChart>
-                </div>
-            <div className="column is-half">
-                <h2 className="mb-2">Price:</h2>
-                <LineChart
-                  width={550}
-                  height={300}
-                  data={historicalData}
-                  margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
-                >
-                  <CartesianGrid stroke="lightgray" strokeDasharray={5}/>
-                  <XAxis dataKey="timestamp" />
-                  <YAxis />
-                  <Tooltip />
-                  {showLocalHigh ? <ReferenceLine y={0} label="Max price" stroke="red" ifOverflow="extendDomain"/> : ""}
-                  <Line type="monotone" dataKey="price" stroke="#8884d8" />
-                </LineChart>
+            <h2 className="mb-2">Volume:</h2>
+            <AreaChart
+              width={550}
+              height={300}
+              data={historicalData}
+              margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
+            >
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis dataKey="timestamp" interval={5} angle={0} dx={20} />
+              <YAxis />
+              <CartesianGrid stroke="lightgray" strokeDasharray={5} />
+              <Tooltip />
+              <Area
+                type="linear"
+                activeDot={{ r: 3 }}
+                dataKey="volume_24h"
+                stroke="#8884d8"
+                fillOpacity={1}
+                fill="url(#colorUv)"
+              />
+              {showLocalHigh ? (
+                <ReferenceLine
+                  y={volumeLocalHigh}
+                  label={volumeLocalHigh}
+                  stroke="red"
+                  strokeDasharray={9}
+                  ifOverflow="extendDomain"
+                />
+              ) : (
+                ""
+              )}
+              {showLocalLow ? (
+                <ReferenceLine
+                  y={volumeLocalLow}
+                  label={volumeLocalLow}
+                  stroke="red"
+                  strokeDasharray={9}
+                  ifOverflow="extendDomain"
+                />
+              ) : (
+                ""
+              )}
+            </AreaChart>
+          </div>
+          <div className="column is-half">
+            <h2 className="mb-2">Price:</h2>
+            <LineChart
+              width={550}
+              height={300}
+              data={historicalData}
+              margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
+            >
+              <CartesianGrid stroke="lightgray" strokeDasharray={5} />
+              <XAxis dataKey="timestamp" />
+              <YAxis />
+              <Tooltip />
+              {showLocalHigh ? (
+                <ReferenceLine
+                  y={priceLocalHigh}
+                  label={priceLocalHigh}
+                  stroke="red"
+                  strokeDasharray={9}
+                  ifOverflow="extendDomain"
+                />
+              ) : (
+                ""
+              )}
+              {showLocalLow ? (
+                <ReferenceLine
+                  y={priceLocalLow}
+                  label={priceLocalLow}
+                  stroke="red"
+                  strokeDasharray={9}
+                  ifOverflow="extendDomain"
+                />
+              ) : (
+                ""
+              )}
+              <Line type="linear" dataKey="price" stroke="#8884d8" />
+            </LineChart>
           </div>
         </div>
       ) : (
-        <div>
-            <h2 className="has-text-centered mb-2">Volume and Price:</h2>
-            <ComposedChart
-              width={1300}
-              height={300}
-              data={historicalData}
-              margin={{
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: 80,
-              }}
-            >
-              <CartesianGrid stroke="lightgray" strokeDasharray={5}/>
-              <XAxis dataKey="timestamp" scale="band" />
-              <YAxis yAxisId="left" dataKey="volume_24h" />
-              {showLocalHigh ? <ReferenceLine y={0} yAxisId="left" label="Max volume" stroke="red" ifOverflow="extendDomain"/> : ""}
-              <YAxis yAxisId="right" dataKey="price" orientation="right" />
-              {showLocalHigh ? <ReferenceLine y={0} yAxisId="right" label="Max price" stroke="red" ifOverflow="extendDomain"/> : ""}
-              
-              <Tooltip />
-              <Legend />
-              <Area
+        <div className="mb-2">
+          <h2 className="has-text-centered mb-2">Volume and Price:</h2>
+          <ComposedChart
+            width={1300}
+            height={300}
+            data={historicalData}
+            margin={{
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 80,
+            }}
+          >
+            <CartesianGrid stroke="lightgray" strokeDasharray={5} />
+            <XAxis dataKey="timestamp" scale="band" />
+            <YAxis yAxisId="left" dataKey="volume_24h" />
+            {showLocalHigh ? (
+              <ReferenceLine
+                y={volumeLocalHigh}
                 yAxisId="left"
-                type="monotone"
-                dataKey="volume_24h"
-                stroke="#8884d8"
-                activeDot={{ r: 2 }}
+                label="Max volume"
+                stroke="red"
+                strokeDasharray={12}
+                ifOverflow="extendDomain"
               />
-              <Line
+            ) : (
+              ""
+            )}
+            {showLocalLow ? (
+              <ReferenceLine
+                y={volumeLocalLow}
+                yAxisId="left"
+                label="Min volume"
+                stroke="red"
+                strokeDasharray={12}
+                ifOverflow="extendDomain"
+              />
+            ) : (
+              ""
+            )}
+            <YAxis yAxisId="right" dataKey="price" orientation="right" />
+            {showLocalHigh ? (
+              <ReferenceLine
+                y={priceLocalHigh}
                 yAxisId="right"
-                type="monotone"
-                dataKey="price"
-                stroke="#82ca9d"
+                label="Max price"
+                stroke="red"
+                strokeDasharray={12}
+                ifOverflow="extendDomain"
               />
-              
-            </ComposedChart>
-          </div>
+            ) : (
+              ""
+            )}
+            {showLocalLow ? (
+              <ReferenceLine
+                y={priceLocalLow}
+                yAxisId="right"
+                label="Min price"
+                stroke="red"
+                strokeDasharray={12}
+                ifOverflow="extendDomain"
+              />
+            ) : (
+              ""
+            )}
+            <Tooltip />
+            <Legend />
+            <Area
+              yAxisId="left"
+              type="linear"
+              dataKey="volume_24h"
+              stroke="#8884d8"
+              activeDot={{ r: 2 }}
+            />
+            <Line
+              yAxisId="right"
+              type="linear"
+              dataKey="price"
+              stroke="#82ca9d"
+            />
+          </ComposedChart>
+        </div>
       )}
-      <div className="has-text-centered">
-        <input
-          type="checkbox"
-          id="isTwoCharts"
-          name="isTwoCharts"
-          value="isTwoCharts"
-          checked={isTwoCharts}
-          onChange={handleIsTwoCharts}
-        />
-        <label htmlFor="isTwoCharts"> Separate price and volume</label>
-        <input
-          type="checkbox"
-          id="showLocalHigh"
-          name="showLocalHigh"
-          value="showLocalHigh"
-          checked={showLocalHigh}
-          onChange={handleShowLocalHigh}
-        />
-        <label htmlFor="showLocalHigh"> Show local high line</label>
+      <div className="has-text-centered columns">
+        <div className="column">
+          <h3>Chart options:</h3>
+        </div>
+      </div>
+      <div className="has-text-centered columns">
+        <div className="m-1 column"></div>
+        <div className="m-1 column">
+          <input
+            type="checkbox"
+            id="showTwoCharts"
+            name="showTwoCharts"
+            value="showTwoCharts"
+            checked={showTwoCharts}
+            onChange={handleIsTwoCharts}
+          />
+          <label htmlFor="showTwoCharts"> Separate price and volume</label>
+        </div>
+
+        <div className="m-1 column">
+          <input
+            type="checkbox"
+            id="showLocalHigh"
+            name="showLocalHigh"
+            value="showLocalHigh"
+            checked={showLocalHigh}
+            onChange={handleShowLocalHigh}
+          />
+          <label htmlFor="showLocalHigh"> Show highest value</label>
+        </div>
+        <div className="m-1 column">
+          <input
+            type="checkbox"
+            id="showLocalLow"
+            name="showLocalLow"
+            value="showLocalLow"
+            checked={showLocalLow}
+            onChange={handleShowLocalLow}
+          />
+          <label htmlFor="showLocalLow"> Show lowest value</label>
+        </div>
+        <div className="m-1 column"></div>
       </div>
       <div className="columns is-vcentered is-centered has-text-centered">
         <div className="column is-half is-vcentered is-centered">
@@ -260,31 +327,31 @@ const ItemPage: React.FC = () => {
           <div className="">
             <button
               className="button is-primary is-small is-outlined m-1"
-              onClick={interval1d}
+              onClick={() => setInterval("1d")}
             >
               1 Day
             </button>
             <button
               className="button is-primary is-small is-outlined m-1"
-              onClick={interval7d}
+              onClick={() => setInterval("7d")}
             >
               7 Days
             </button>
             <button
               className="button is-primary is-small is-outlined m-1"
-              onClick={interval30d}
+              onClick={() => setInterval("30d")}
             >
               30 Days
             </button>
             <button
               className="button is-primary is-small is-outlined m-1"
-              onClick={interval90d}
+              onClick={() => setInterval("90d")}
             >
               90 Days
             </button>
             <button
               className="button is-primary is-small is-outlined m-1"
-              onClick={interval365d}
+              onClick={() => setInterval("365d")}
             >
               365 Days
             </button>
@@ -298,33 +365,27 @@ const ItemPage: React.FC = () => {
             <button
               className="button is-primary is-active
              is-small is-outlined m-1"
-              onClick={lastDay}
+              onClick={() => getInterval(1)}
             >
               Day
             </button>
             <button
               className="button is-primary is-small is-outlined m-1"
-              onClick={lastWeek}
+              onClick={() => getInterval(7)}
             >
               Week
             </button>
             <button
               className="button is-primary is-small is-outlined m-1"
-              onClick={lastMonth}
+              onClick={() => getInterval(30)}
             >
               Month
             </button>
             <button
               className="button is-primary is-small is-outlined m-1"
-              onClick={lastYear}
+              onClick={() => getInterval(365)}
             >
               Year
-            </button>
-            <button
-              className="button is-primary is-small is-outlined m-1"
-              onClick={fromStart}
-            >
-              From start
             </button>
           </div>
         </div>
@@ -373,7 +434,7 @@ export default ItemPage;
                   <CartesianGrid stroke="lightgray" strokeDasharray={5}/>
                   <Tooltip />
                   <Area
-                    type="monotone"
+                    type="linear"
                     activeDot={{ r: 3 }}
                     dataKey="volume_24h"
                     stroke="#8884d8"
@@ -400,10 +461,17 @@ export default ItemPage;
                   <YAxis />
                   <Tooltip />
                   {showLocalHigh ? <ReferenceLine y={0} label="Max price" stroke="red" ifOverflow="extendDomain"/> : ""}
-                  <Line type="monotone" dataKey="price" stroke="#8884d8" />
+                  <Line type="linear" dataKey="price" stroke="#8884d8" />
                 </LineChart>
               </div>
             </div>
           </div>
         </div>
+
+        <button
+              className="button is-primary is-small is-outlined m-1"
+              onClick={fromStart}
+            >
+              From start
+            </button>
 */
