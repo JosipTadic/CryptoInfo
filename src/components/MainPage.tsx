@@ -84,179 +84,185 @@ const MainPage: React.FC = () => {
   };
   return (
     <>
-    <div>
-    <p className="control has-icons-right"></p>
-    <input className="input" type="search" placeholder="Search..." />
-    </div>
-    <div className="columns m-1">
-      <table className="table is-striped is-hoverable is-fullwidth">
-        <thead>
-          <tr>
-            <td className="">Name</td>
-            <td className="has-text-centered">Symbol</td>
-            <td className="has-text-centered">Price(USD)</td>
-            <td className="has-text-centered">Volume(24h)</td>
-            <td className="has-text-centered">Change(30d)</td>
-            <td className="has-text-centered">Change(1d)</td>
-            <td className="has-text-centered">Change(1h)</td>
-            <td className="has-text-centered">Change(15min)</td>
-          </tr>
-        </thead>
-        <tbody>
-          {data
-            .map(({ ...data }: Idata) => (
-              <tr key={data.id}>
-                <td className="">
-                  <a href={"historical/" + data.id}><b>{data.name}</b></a>
-                </td>{" "}
-                <td className="has-text-centered">
-                  <span className="tag is-info is-warning">{data.symbol}</span>
-                </td>{" "}
-                <td className="has-text-centered">
-                  {data.quotes.USD.price
-                    .toFixed(2)
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                  $
-                </td>{" "}
-                <td className="has-text-centered">
-                  {data.quotes.USD.volume_24h
-                    .toFixed(2)
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                  $
-                </td>
-                {checkIfNegative(data.quotes.USD.percent_change_30d) ? (
-                  <td className="has-text-danger has-text-centered">
-                    {data.quotes.USD.percent_change_30d}%
-                  </td>
-                ) : (
-                  <td className="has-text-success has-text-centered">
-                    {data.quotes.USD.percent_change_30d}%
-                  </td>
-                )}
-                {checkIfNegative(data.quotes.USD.percent_change_24h) ? (
-                  <td className="has-text-danger has-text-centered">
-                    {data.quotes.USD.percent_change_24h}%
-                  </td>
-                ) : (
-                  <td className="has-text-success has-text-centered">
-                    {data.quotes.USD.percent_change_24h}%
-                  </td>
-                )}
-                {checkIfNegative(data.quotes.USD.percent_change_1h) ? (
-                  <td className="has-text-danger has-text-centered">
-                    {data.quotes.USD.percent_change_1h}%
-                  </td>
-                ) : (
-                  <td className="has-text-success has-text-centered">
-                    {data.quotes.USD.percent_change_1h}%
-                  </td>
-                )}
-                {checkIfNegative(data.quotes.USD.percent_change_15m) ? (
-                  <td className="has-text-danger has-text-centered">
-                    {data.quotes.USD.percent_change_15m}%
-                  </td>
-                ) : (
-                  <td className="has-text-success has-text-centered">
-                    {data.quotes.USD.percent_change_15m}%
-                  </td>
-                )}
+      <div className="control">
+        <div className="field m-2">
+          <p className="control has-icons-right"></p>
+          <input className="input" type="search" placeholder="Search..." />
+        </div>
+        <div className="field m-2">
+          <table className="table is-striped is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <td className="">Name</td>
+                <td className="has-text-centered">Symbol</td>
+                <td className="has-text-centered">Price(USD)</td>
+                <td className="has-text-centered">Volume(24h)</td>
+                <td className="has-text-centered">Change(30d)</td>
+                <td className="has-text-centered">Change(1d)</td>
+                <td className="has-text-centered">Change(1h)</td>
+                <td className="has-text-centered">Change(15min)</td>
               </tr>
-            ))
-            .slice(skipPage[0], skipPage[1])}
-        </tbody>
+            </thead>
+            <tbody>
+              {data
+                .map(({ ...data }: Idata) => (
+                  <tr key={data.id}>
+                    <td className="">
+                      <a href={"historical/" + data.id}>
+                        <b>{data.name}</b>
+                      </a>
+                    </td>{" "}
+                    <td className="has-text-centered">
+                      <span className="tag is-info is-warning">
+                        {data.symbol}
+                      </span>
+                    </td>{" "}
+                    <td className="has-text-centered">
+                      {data.quotes.USD.price
+                        .toFixed(2)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      $
+                    </td>{" "}
+                    <td className="has-text-centered">
+                      {data.quotes.USD.volume_24h
+                        .toFixed(2)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      $
+                    </td>
+                    {checkIfNegative(data.quotes.USD.percent_change_30d) ? (
+                      <td className="has-text-danger has-text-centered">
+                        {data.quotes.USD.percent_change_30d}%
+                      </td>
+                    ) : (
+                      <td className="has-text-success has-text-centered">
+                        {data.quotes.USD.percent_change_30d}%
+                      </td>
+                    )}
+                    {checkIfNegative(data.quotes.USD.percent_change_24h) ? (
+                      <td className="has-text-danger has-text-centered">
+                        {data.quotes.USD.percent_change_24h}%
+                      </td>
+                    ) : (
+                      <td className="has-text-success has-text-centered">
+                        {data.quotes.USD.percent_change_24h}%
+                      </td>
+                    )}
+                    {checkIfNegative(data.quotes.USD.percent_change_1h) ? (
+                      <td className="has-text-danger has-text-centered">
+                        {data.quotes.USD.percent_change_1h}%
+                      </td>
+                    ) : (
+                      <td className="has-text-success has-text-centered">
+                        {data.quotes.USD.percent_change_1h}%
+                      </td>
+                    )}
+                    {checkIfNegative(data.quotes.USD.percent_change_15m) ? (
+                      <td className="has-text-danger has-text-centered">
+                        {data.quotes.USD.percent_change_15m}%
+                      </td>
+                    ) : (
+                      <td className="has-text-success has-text-centered">
+                        {data.quotes.USD.percent_change_15m}%
+                      </td>
+                    )}
+                  </tr>
+                ))
+                .slice(skipPage[0], skipPage[1])}
+            </tbody>
 
-        <tfoot>
-          <tr>
-            <td colSpan={8}>
-              <div className="columns">
-                <div className="column is-one-quarter">
-                  {checkIfFirstPage() ? (
-                    <button
-                      className="button is-link is-outlined is-fullwidth"
-                      onClick={first20}
-                      disabled
-                    >
-                      First
-                    </button>
-                  ) : (
-                    <button
-                      className="button is-link is-outlined is-fullwidth"
-                      onClick={first20}
-                    >
-                      First
-                    </button>
-                  )}
-                </div>
-                <div className="column is-one-quarter">
-                  {checkIfFirstPage() ? (
-                    <button
-                      className="button is-link is-outlined is-fullwidth"
-                      onClick={previous20}
-                      disabled
-                    >
-                      Previous
-                    </button>
-                  ) : (
-                    <button
-                      className="button is-link is-outlined is-fullwidth"
-                      onClick={previous20}
-                    >
-                      Previous
-                    </button>
-                  )}
-                </div>
-                <div className="column is-one-quarter">
-                  {checkIfLastPage() ? (
-                    <button
-                      className="button is-link is-outlined is-fullwidth"
-                      onClick={next20}
-                      disabled
-                    >
-                      Next
-                    </button>
-                  ) : (
-                    <button
-                      className="button is-link is-outlined is-fullwidth"
-                      onClick={next20}
-                    >
-                      Next
-                    </button>
-                  )}
-                </div>
-                <div className="column is-one-quarter">
-                  {checkIfLastPage() ? (
-                    <button
-                      className="button is-link is-outlined is-fullwidth"
-                      onClick={last20}
-                      disabled
-                    >
-                      Last
-                    </button>
-                  ) : (
-                    <button
-                      className="button is-link is-outlined is-fullwidth"
-                      onClick={last20}
-                    >
-                      Last
-                    </button>
-                  )}
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td colSpan={8}>
-              <div className="columns is-justify-content-center m-2">
-                Currently displaying {skipPage[0]} - {skipPage[1]}{" "}
-                cryptocurrencies sorted by volume
-              </div>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
+            <tfoot>
+              <tr>
+                <td colSpan={8}>
+                  <div className="columns">
+                    <div className="column is-one-quarter">
+                      {checkIfFirstPage() ? (
+                        <button
+                          className="button is-link is-outlined is-fullwidth"
+                          onClick={first20}
+                          disabled
+                        >
+                          First
+                        </button>
+                      ) : (
+                        <button
+                          className="button is-link is-outlined is-fullwidth"
+                          onClick={first20}
+                        >
+                          First
+                        </button>
+                      )}
+                    </div>
+                    <div className="column is-one-quarter">
+                      {checkIfFirstPage() ? (
+                        <button
+                          className="button is-link is-outlined is-fullwidth"
+                          onClick={previous20}
+                          disabled
+                        >
+                          Previous
+                        </button>
+                      ) : (
+                        <button
+                          className="button is-link is-outlined is-fullwidth"
+                          onClick={previous20}
+                        >
+                          Previous
+                        </button>
+                      )}
+                    </div>
+                    <div className="column is-one-quarter">
+                      {checkIfLastPage() ? (
+                        <button
+                          className="button is-link is-outlined is-fullwidth"
+                          onClick={next20}
+                          disabled
+                        >
+                          Next
+                        </button>
+                      ) : (
+                        <button
+                          className="button is-link is-outlined is-fullwidth"
+                          onClick={next20}
+                        >
+                          Next
+                        </button>
+                      )}
+                    </div>
+                    <div className="column is-one-quarter">
+                      {checkIfLastPage() ? (
+                        <button
+                          className="button is-link is-outlined is-fullwidth"
+                          onClick={last20}
+                          disabled
+                        >
+                          Last
+                        </button>
+                      ) : (
+                        <button
+                          className="button is-link is-outlined is-fullwidth"
+                          onClick={last20}
+                        >
+                          Last
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colSpan={8}>
+                  <div className="columns is-justify-content-center m-2">
+                    Currently displaying {skipPage[0]} - {skipPage[1]}{" "}
+                    cryptocurrencies sorted by volume
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
     </>
   );
 };

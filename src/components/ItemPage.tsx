@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "bulma/css/bulma.min.css";
 import {
   LineChart,
@@ -37,13 +37,13 @@ export interface IcoinInfo {
 }
 
 const ItemPage: React.FC = () => {
-  var firstInMonth = new Date();
-  firstInMonth.setDate(0);
+  var defaultStartDate = new Date();
+  defaultStartDate.setDate(-15);
   const [startDate, setStartDate] = useState<string | undefined>(
-    firstInMonth.toISOString()
+    defaultStartDate.toISOString()
   );
 
-  const [showTwoCharts, setShowTwoCharts] = useState<boolean>(true);
+  const [showTwoCharts, setShowTwoCharts] = useState<boolean>(false);
   const [showLocalHigh, setShowLocalHigh] = useState<boolean>(false);
   const [showLocalLow, setShowLocalLow] = useState<boolean>(false);
 
@@ -95,11 +95,28 @@ const ItemPage: React.FC = () => {
   return (
     <>
       <div className="columns is-vcentered is-centered mt-5">
-        <h1>{coinInfo?.name}</h1>
+        <div className="column ml-2">
+          <Link to="/">
+            <button className="button is-primary is-rounded is-outlined">
+              Back
+            </button>
+          </Link>
+        </div>
+        <div className="column has-text-centered">
+          <h1>{coinInfo?.name}</h1>
+        </div>
+        <div className="column"></div>
       </div>
       <div className="has-text-centered is-align-content-stretch m-2">
         <hr />
-        {coinInfo?.description ? (<><h2>{coinInfo.description} </h2><hr /></>) : "" }
+        {coinInfo?.description ? (
+          <>
+            <h2>{coinInfo.description} </h2>
+            <hr />
+          </>
+        ) : (
+          ""
+        )}
       </div>
       {showTwoCharts ? (
         <div className="columns has-text-centered">
@@ -122,7 +139,7 @@ const ItemPage: React.FC = () => {
               <CartesianGrid stroke="lightgray" strokeDasharray={5} />
               <Tooltip />
               <Area
-                type="linear"
+                type="monotone"
                 activeDot={{ r: 3 }}
                 dataKey="volume_24h"
                 stroke="#8884d8"
@@ -187,7 +204,7 @@ const ItemPage: React.FC = () => {
               ) : (
                 ""
               )}
-              <Line type="linear" dataKey="price" stroke="#8884d8" />
+              <Line type="monotone" dataKey="price" stroke="#8884d8" />
             </LineChart>
           </div>
         </div>
@@ -261,14 +278,14 @@ const ItemPage: React.FC = () => {
             <Legend />
             <Area
               yAxisId="left"
-              type="linear"
+              type="monotone"
               dataKey="volume_24h"
               stroke="#8884d8"
               activeDot={{ r: 2 }}
             />
             <Line
               yAxisId="right"
-              type="linear"
+              type="monotone"
               dataKey="price"
               stroke="#82ca9d"
             />
@@ -433,7 +450,7 @@ export default ItemPage;
                   <CartesianGrid stroke="lightgray" strokeDasharray={5}/>
                   <Tooltip />
                   <Area
-                    type="linear"
+                    type="monotone"
                     activeDot={{ r: 3 }}
                     dataKey="volume_24h"
                     stroke="#8884d8"
@@ -460,7 +477,7 @@ export default ItemPage;
                   <YAxis />
                   <Tooltip />
                   {showLocalHigh ? <ReferenceLine y={0} label="Max price" stroke="red" ifOverflow="extendDomain"/> : ""}
-                  <Line type="linear" dataKey="price" stroke="#8884d8" />
+                  <Line type="monotone" dataKey="price" stroke="#8884d8" />
                 </LineChart>
               </div>
             </div>
