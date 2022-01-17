@@ -17,6 +17,7 @@ import {
   ReferenceLine,
 } from "recharts";
 import { useHistoricalData } from "../hooks/useHistoricalData";
+import CheckIconComponent from "./CheckIconComponent";
 
 type IntervalType = "1d" | "7d" | "30d" | "90d" | "365d";
 
@@ -28,7 +29,21 @@ export interface IhistoricalData {
 }
 export interface IhistoricalData extends Array<IhistoricalData> {}
 
-export interface IcoinInfo {
+export interface IcoinInfoDataBoolean {
+  is_new: boolean | undefined;
+  is_active: boolean | undefined;
+  open_source: boolean | undefined;
+  hardware_wallet: boolean | undefined;
+}
+export interface IcoinInfoDataString {
+  type: string;
+  contract: string;
+  platform: string;
+  development_status: string;
+  proof_type: string;
+  org_structure: string;
+}
+export interface IcoinInfo extends IcoinInfoDataBoolean, IcoinInfoDataString {
   id: string;
   name: string;
   symbol: string;
@@ -87,6 +102,12 @@ const ItemPage: React.FC = () => {
     var pastDate = ourDate.getDate() - interval;
     ourDate.setDate(pastDate);
     setStartDate(ourDate.toISOString());
+  };
+  const coinInfoBoolean: IcoinInfoDataBoolean = {
+    is_new: coinInfo?.is_new,
+    hardware_wallet: coinInfo?.hardware_wallet,
+    is_active: coinInfo?.is_active,
+    open_source: coinInfo?.open_source,
   };
   /*const fromStart = () => {
     const dateStart = coinInfo?.first_data_at;
@@ -404,6 +425,23 @@ const ItemPage: React.FC = () => {
               Year
             </button>
           </div>
+        </div>
+      </div>
+      <div>
+        <div>
+          <h4>Additional info:</h4>
+        </div>
+        <div>
+          {
+            <>
+              <CheckIconComponent
+                is_new={coinInfo?.is_new}
+                hardware_wallet={coinInfo?.hardware_wallet}
+                is_active={coinInfo?.is_active}
+                open_source={coinInfo?.open_source}
+              />
+            </>
+          }
         </div>
       </div>
     </>
