@@ -18,6 +18,7 @@ import {
 } from "recharts";
 import { useHistoricalData } from "../hooks/useHistoricalData";
 import CheckIconComponent from "./CheckIconComponent";
+import AdditionalInfoString from "./AdditionalInfoString";
 
 type IntervalType = "1d" | "7d" | "30d" | "90d" | "365d";
 
@@ -36,12 +37,12 @@ export interface IcoinInfoDataBoolean {
   hardware_wallet: boolean | undefined;
 }
 export interface IcoinInfoDataString {
-  type: string;
-  contract: string;
-  platform: string;
-  development_status: string;
-  proof_type: string;
-  org_structure: string;
+  type?: string;
+  contract?: string;
+  platform?: string;
+  development_status?: string;
+  proof_type?: string;
+  org_structure?: string;
 }
 export interface IcoinInfo extends IcoinInfoDataBoolean, IcoinInfoDataString {
   id: string;
@@ -429,18 +430,30 @@ const ItemPage: React.FC = () => {
       </div>
       <div>
         <div>
-          <h4>Additional info:</h4>
+          <h4 className="has-text-centered">Additional info:</h4>
         </div>
         <div>
           {
-            <>
+            <div className="has-text-centered">
               <CheckIconComponent
                 is_new={coinInfo?.is_new}
                 hardware_wallet={coinInfo?.hardware_wallet}
                 is_active={coinInfo?.is_active}
                 open_source={coinInfo?.open_source}
               />
-            </>
+            </div>
+          }
+          {
+            <div className="has-text-centered">
+             <AdditionalInfoString
+                contract={coinInfo?.contract}
+                development_status={coinInfo?.development_status}
+                org_structure={coinInfo?.org_structure}
+                platform={coinInfo?.platform}
+                proof_type={coinInfo?.proof_type}
+                type={coinInfo?.type}
+             />
+            </div>
           }
         </div>
       </div>
