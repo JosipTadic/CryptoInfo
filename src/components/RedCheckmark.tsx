@@ -5,11 +5,11 @@ import { IlabelProps } from "./GreenCheckmark";
 const RedCheckmark: FC<IlabelProps> = (labelProp) => {
   return (
     <>
-      <div>
-        <div>
+      <div className="columns m-1">
+        <div className="column ml-2">
           <h4>{labelProp.labelProp}</h4>
         </div>
-        <div>
+        <div className="column">
           <figure className="image is-32x32">
             <img alt="red checkmark" src={redCheckmark} />
           </figure>

@@ -12,8 +12,6 @@ import {
   Tooltip,
   Legend,
   ComposedChart,
-  Bar,
-  Scatter,
   ReferenceLine,
 } from "recharts";
 import { useHistoricalData } from "../hooks/useHistoricalData";
@@ -104,12 +102,12 @@ const ItemPage: React.FC = () => {
     ourDate.setDate(pastDate);
     setStartDate(ourDate.toISOString());
   };
-  const coinInfoBoolean: IcoinInfoDataBoolean = {
+  /*const coinInfoBoolean: IcoinInfoDataBoolean = {
     is_new: coinInfo?.is_new,
     hardware_wallet: coinInfo?.hardware_wallet,
     is_active: coinInfo?.is_active,
     open_source: coinInfo?.open_source,
-  };
+  };*/
   /*const fromStart = () => {
     const dateStart = coinInfo?.first_data_at;
     setStartDate(dateStart);
@@ -432,9 +430,9 @@ const ItemPage: React.FC = () => {
         <div>
           <h4 className="has-text-centered">Additional info:</h4>
         </div>
-        <div>
+        <div className="columns">
           {
-            <div className="has-text-centered">
+            <div className="column">
               <CheckIconComponent
                 is_new={coinInfo?.is_new}
                 hardware_wallet={coinInfo?.hardware_wallet}
@@ -444,7 +442,7 @@ const ItemPage: React.FC = () => {
             </div>
           }
           {
-            <div className="has-text-centered">
+            <div className="column has-text-centered">
              <AdditionalInfoString
                 contract={coinInfo?.contract}
                 development_status={coinInfo?.development_status}

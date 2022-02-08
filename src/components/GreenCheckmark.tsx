@@ -8,11 +8,11 @@ export interface IlabelProps {
 const GreenCheckmark: FC<IlabelProps> = (labelProp) => {
   return (
     <>
-      <div className="m-2 is-text-centered">
-        <div>
+      <div className="m-1 columns">
+        <div className="ml-2 column">
           <h4>{labelProp.labelProp}</h4>
         </div>
-        <div>
+        <div className="column">
           <figure className="image is-32x32">
             <img alt="green checkmark" src={greenCheckmark} />
           </figure>
