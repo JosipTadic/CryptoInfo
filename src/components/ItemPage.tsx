@@ -61,7 +61,7 @@ const ItemPage: React.FC = () => {
   const [showLocalHigh, setShowLocalHigh] = useState<boolean>(false);
   const [showLocalLow, setShowLocalLow] = useState<boolean>(false);
 
-  const [interval, setInterval] = useState<IntervalType>("1d");
+  const [interval, setPeriodInterval] = useState<IntervalType>("1d");
 
   let { id } = useParams();
 
@@ -77,7 +77,7 @@ const ItemPage: React.FC = () => {
     })
       .then((res) => res.json())
       .then(setCoinInfo);
-  }, []);
+  }, [id]);
 
   const {
     historicalData,
@@ -363,31 +363,31 @@ const ItemPage: React.FC = () => {
           <div className="">
             <button
               className="button is-primary is-small is-outlined m-1"
-              onClick={() => setInterval("1d")}
+              onClick={() => setPeriodInterval("1d")}
             >
               1 Day
             </button>
             <button
               className="button is-primary is-small is-outlined m-1"
-              onClick={() => setInterval("7d")}
+              onClick={() => setPeriodInterval("7d")}
             >
               7 Days
             </button>
             <button
               className="button is-primary is-small is-outlined m-1"
-              onClick={() => setInterval("30d")}
+              onClick={() => setPeriodInterval("30d")}
             >
               30 Days
             </button>
             <button
               className="button is-primary is-small is-outlined m-1"
-              onClick={() => setInterval("90d")}
+              onClick={() => setPeriodInterval("90d")}
             >
               90 Days
             </button>
             <button
               className="button is-primary is-small is-outlined m-1"
-              onClick={() => setInterval("365d")}
+              onClick={() => setPeriodInterval("365d")}
             >
               365 Days
             </button>

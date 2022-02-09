@@ -24,7 +24,7 @@ export const useHistoricalData = (
     })
       .then((res) => res.json())
       .then(setData);
-  }, [interval, startDate]);
+  }, [id, interval, startDate]);
 
   const prices = historicalData?.map(function (historicalDataObject) {
     return historicalDataObject.price;
