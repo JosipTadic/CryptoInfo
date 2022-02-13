@@ -7,7 +7,7 @@ const RedCheckmark: FC<IlabelProps> = (labelProp) => {
     <>
       <div className="columns m-1">
         <div className="column ml-2">
-          <h4>{labelProp.labelProp}</h4>
+          <p>{labelProp.labelProp}</p>
         </div>
         <div className="column">
           <figure className="image is-32x32">

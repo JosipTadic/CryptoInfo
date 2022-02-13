@@ -117,13 +117,13 @@ const ItemPage: React.FC = () => {
       <div className="columns is-vcentered is-centered mt-5">
         <div className="column ml-2">
           <Link to="/">
-            <button className="button is-primary is-rounded is-outlined">
-              Back
+            <button className="button is-info is-rounded is-outlined">
+              <p> &lt; Back</p>
             </button>
           </Link>
         </div>
         <div className="column has-text-centered">
-          <h1>{coinInfo?.name}</h1>
+          <h1 className="is-size-3">{coinInfo?.name}</h1>
         </div>
         <div className="column"></div>
       </div>
@@ -131,7 +131,7 @@ const ItemPage: React.FC = () => {
         <hr />
         {coinInfo?.description ? (
           <>
-            <h2>{coinInfo.description} </h2>
+            <h2 className="is-size-5">{coinInfo.description} </h2>
             <hr />
           </>
         ) : (
@@ -141,7 +141,7 @@ const ItemPage: React.FC = () => {
       {showTwoCharts ? (
         <div className="columns has-text-centered">
           <div className="column is-half">
-            <h2 className="mb-2">Volume:</h2>
+            <h3 className="mb-2 is-size-5">Volume:</h3>
             <AreaChart
               width={550}
               height={300}
@@ -150,8 +150,8 @@ const ItemPage: React.FC = () => {
             >
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                  <stop offset="1%" stopColor="#0b0073" stopOpacity={0.95} />
+                  <stop offset="95%" stopColor="#050253" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <XAxis dataKey="timestamp" interval={5} angle={0} dx={20} />
@@ -191,7 +191,7 @@ const ItemPage: React.FC = () => {
             </AreaChart>
           </div>
           <div className="column is-half">
-            <h2 className="mb-2">Price:</h2>
+            <h3 className="mb-2 is-size-5">Price:</h3>
             <LineChart
               width={550}
               height={300}
@@ -230,7 +230,7 @@ const ItemPage: React.FC = () => {
         </div>
       ) : (
         <div className="mb-2">
-          <h2 className="has-text-centered mb-2">Volume and Price:</h2>
+          <h3 className="has-text-centered mb-5 is-size-5">Volume and Price:</h3>
           <ComposedChart
             width={1300}
             height={300}
@@ -242,6 +242,12 @@ const ItemPage: React.FC = () => {
               left: 80,
             }}
           >
+            <defs>
+                    <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="1%" stopColor="#8884d8" stopOpacity={0.95} />
+                      <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
             <CartesianGrid stroke="lightgray" strokeDasharray={5} />
             <XAxis dataKey="timestamp" scale="band" />
             <YAxis yAxisId="left" dataKey="volume_24h" />
@@ -297,24 +303,28 @@ const ItemPage: React.FC = () => {
             <Tooltip />
             <Legend />
             <Area
-              yAxisId="left"
-              type="monotone"
-              dataKey="volume_24h"
-              stroke="#8884d8"
-              activeDot={{ r: 2 }}
-            />
+            yAxisId="left"
+                type="monotone"
+                activeDot={{ r: 2 }}
+                dataKey="volume_24h"
+                stroke="#0000ea"
+                fillOpacity={1}
+                fill="url(#colorPv)"
+              />
             <Line
               yAxisId="right"
               type="monotone"
               dataKey="price"
-              stroke="#82ca9d"
+              stroke="#060040"
             />
           </ComposedChart>
         </div>
       )}
+      <hr />
       <div className="has-text-centered columns">
+        
         <div className="column">
-          <h3>Chart options:</h3>
+          <h3 className="has-text-centered m-2 is-size-5">Chart options:</h3>
         </div>
       </div>
       <div className="has-text-centered columns">
@@ -358,35 +368,35 @@ const ItemPage: React.FC = () => {
       <div className="columns is-vcentered is-centered has-text-centered">
         <div className="column is-half is-vcentered is-centered">
           <div className="">
-            <h3 className="m-2">Intervals:</h3>
+            <h3 className="has-text-centered m-2 is-size-6">Intervals:</h3>
           </div>
           <div className="">
             <button
-              className="button is-primary is-small is-outlined m-1"
+              className="button is-info is-small m-1"
               onClick={() => setPeriodInterval("1d")}
             >
               1 Day
             </button>
             <button
-              className="button is-primary is-small is-outlined m-1"
+              className="button is-info is-small m-1"
               onClick={() => setPeriodInterval("7d")}
             >
               7 Days
             </button>
             <button
-              className="button is-primary is-small is-outlined m-1"
+              className="button is-info is-small  m-1"
               onClick={() => setPeriodInterval("30d")}
             >
               30 Days
             </button>
             <button
-              className="button is-primary is-small is-outlined m-1"
+              className="button is-info is-small  m-1"
               onClick={() => setPeriodInterval("90d")}
             >
               90 Days
             </button>
             <button
-              className="button is-primary is-small is-outlined m-1"
+              className="button is-info is-small  m-1"
               onClick={() => setPeriodInterval("365d")}
             >
               365 Days
@@ -395,30 +405,30 @@ const ItemPage: React.FC = () => {
         </div>
         <div className="column is-half is centered">
           <div>
-            <h3 className="m-2">Date from:</h3>
+            <h3 className="has-text-centered m-2 is-size-6">Date from:</h3>
           </div>
           <div className="">
             <button
-              className="button is-primary is-active
-             is-small is-outlined m-1"
+              className="button is-info is-active
+             is-small  m-1"
               onClick={() => getInterval(1)}
             >
               Day
             </button>
             <button
-              className="button is-primary is-small is-outlined m-1"
+              className="button is-info is-small  m-1"
               onClick={() => getInterval(7)}
             >
               Week
             </button>
             <button
-              className="button is-primary is-small is-outlined m-1"
+              className="button is-info is-small  m-1"
               onClick={() => getInterval(30)}
             >
               Month
             </button>
             <button
-              className="button is-primary is-small is-outlined m-1"
+              className="button is-info is-small  m-1"
               onClick={() => getInterval(365)}
             >
               Year
@@ -427,8 +437,9 @@ const ItemPage: React.FC = () => {
         </div>
       </div>
       <div>
-        <div>
-          <h4 className="has-text-centered">Additional info:</h4>
+      <hr />
+        <div className="mt-3">
+          <h3 className="has-text-centered is-size-5">Additional info:</h3>
         </div>
         <div className="columns">
           {
@@ -490,7 +501,7 @@ export default ItemPage;
                 >
                   <defs>
                     <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                      <stop offset="1%" stopColor="#8884d8" stopOpacity={0.95} />
                       <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
                     </linearGradient>
                   </defs>
@@ -534,7 +545,7 @@ export default ItemPage;
         </div>
 
         <button
-              className="button is-primary is-small is-outlined m-1"
+              className="button is-info is-small  m-1"
               onClick={fromStart}
             >
               From start

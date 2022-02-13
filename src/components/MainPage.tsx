@@ -93,14 +93,14 @@ const MainPage: React.FC = () => {
           <table className="table is-striped is-hoverable is-fullwidth">
             <thead>
               <tr>
-                <td className="">Name</td>
-                <td className="has-text-centered">Symbol</td>
-                <td className="has-text-centered">Price(USD)</td>
-                <td className="has-text-centered">Volume(24h)</td>
-                <td className="has-text-centered">Change(30d)</td>
-                <td className="has-text-centered">Change(1d)</td>
-                <td className="has-text-centered">Change(1h)</td>
-                <td className="has-text-centered">Change(15min)</td>
+                <td className=""><h1>Name</h1></td>
+                <td className="has-text-centered"><h1>Symbol</h1></td>
+                <td className="has-text-centered"><h1>Price(USD)</h1></td>
+                <td className="has-text-centered"><h1>Volume(24h)</h1></td>
+                <td className="has-text-centered"><h1>Change(30d)</h1></td>
+                <td className="has-text-centered"><h1>Change(1d)</h1></td>
+                <td className="has-text-centered"><h1>Change(1h)</h1></td>
+                <td className="has-text-centered"><h1>Change(15min)</h1></td>
               </tr>
             </thead>
             <tbody>
@@ -109,62 +109,66 @@ const MainPage: React.FC = () => {
                   <tr key={data.id}>
                     <td className="">
                       <a href={"historical/" + data.id}>
-                        <b>{data.name}</b>
+                        <h2><b>{data.name}</b></h2>
                       </a>
                     </td>{" "}
                     <td className="has-text-centered">
                       <span className="tag is-info is-warning">
-                        {data.symbol}
+                      <h3>{data.symbol}</h3>
                       </span>
                     </td>{" "}
                     <td className="has-text-centered">
+                    <h3>
                       {data.quotes.USD.price
                         .toFixed(2)
                         .toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                      $
+                      $ </h3>
                     </td>{" "}
                     <td className="has-text-centered">
+                    <h3>
                       {data.quotes.USD.volume_24h
                         .toFixed(2)
                         .toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                      $
+                      $ </h3>
                     </td>
                     {checkIfNegative(data.quotes.USD.percent_change_30d) ? (
                       <td className="has-text-danger has-text-centered">
-                        {data.quotes.USD.percent_change_30d}%
+                        <h3>{data.quotes.USD.percent_change_30d}%</h3>
                       </td>
                     ) : (
+                      
                       <td className="has-text-success has-text-centered">
-                        {data.quotes.USD.percent_change_30d}%
+                        <h3>{data.quotes.USD.percent_change_30d}%</h3>
                       </td>
                     )}
                     {checkIfNegative(data.quotes.USD.percent_change_24h) ? (
                       <td className="has-text-danger has-text-centered">
-                        {data.quotes.USD.percent_change_24h}%
+                        <h3>{data.quotes.USD.percent_change_24h}%</h3>
                       </td>
                     ) : (
                       <td className="has-text-success has-text-centered">
-                        {data.quotes.USD.percent_change_24h}%
+                        <h3>{data.quotes.USD.percent_change_24h}%</h3>
                       </td>
                     )}
                     {checkIfNegative(data.quotes.USD.percent_change_1h) ? (
                       <td className="has-text-danger has-text-centered">
-                        {data.quotes.USD.percent_change_1h}%
+                        <h3>{data.quotes.USD.percent_change_1h}%</h3>
                       </td>
                     ) : (
+                      
                       <td className="has-text-success has-text-centered">
-                        {data.quotes.USD.percent_change_1h}%
+                        <h3>{data.quotes.USD.percent_change_1h}%</h3>
                       </td>
                     )}
                     {checkIfNegative(data.quotes.USD.percent_change_15m) ? (
                       <td className="has-text-danger has-text-centered">
-                        {data.quotes.USD.percent_change_15m}%
+                        <h3>{data.quotes.USD.percent_change_15m}%</h3>
                       </td>
                     ) : (
                       <td className="has-text-success has-text-centered">
-                        {data.quotes.USD.percent_change_15m}%
+                        <h3>{data.quotes.USD.percent_change_15m}%</h3>
                       </td>
                     )}
                   </tr>
