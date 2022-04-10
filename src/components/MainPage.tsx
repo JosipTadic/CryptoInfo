@@ -82,63 +82,90 @@ const MainPage: React.FC = () => {
       return false;
     }
   };
+  const [value, setValue] = useState('')
+
   return (
     <>
       <div className="control">
         <div className="field m-2">
           <p className="control has-icons-right"></p>
-          <input className="input" type="search" placeholder="Search..." />
+          <input className="input" type="search" placeholder="Search by name or symbol..." onChange={e => setValue(e.target.value.toLowerCase())}  />
         </div>
         <div className="field m-2">
           <table className="table is-striped is-hoverable is-fullwidth">
             <thead>
               <tr>
-                <td className=""><h1>Name</h1></td>
-                <td className="has-text-centered"><h1>Symbol</h1></td>
-                <td className="has-text-centered"><h1>Price(USD)</h1></td>
-                <td className="has-text-centered"><h1>Volume(24h)</h1></td>
-                <td className="has-text-centered"><h1>Change(30d)</h1></td>
-                <td className="has-text-centered"><h1>Change(1d)</h1></td>
-                <td className="has-text-centered"><h1>Change(1h)</h1></td>
-                <td className="has-text-centered"><h1>Change(15min)</h1></td>
+                <td className="">
+                  <h1>Name</h1>
+                </td>
+                <td className="has-text-centered">
+                  <h1>Symbol</h1>
+                </td>
+                <td className="has-text-centered">
+                  <h1>Price(USD)</h1>
+                </td>
+                <td className="has-text-centered">
+                  <h1>Volume(24h)</h1>
+                </td>
+                <td className="has-text-centered">
+                  <h1>Change(30d)</h1>
+                </td>
+                <td className="has-text-centered">
+                  <h1>Change(1d)</h1>
+                </td>
+                <td className="has-text-centered">
+                  <h1>Change(1h)</h1>
+                </td>
+                <td className="has-text-centered">
+                  <h1>Change(15min)</h1>
+                </td>
               </tr>
             </thead>
             <tbody>
               {data
+                .filter((data) => {
+                  if (!value) return true;
+                  if (data.name.toLowerCase().includes(value) || data.symbol.toLowerCase().includes(value)) {
+                    return true;
+                  }
+                })
                 .map(({ ...data }: Idata) => (
                   <tr key={data.id}>
                     <td className="">
                       <a href={"historical/" + data.id}>
-                        <h2><b>{data.name}</b></h2>
+                        <h2>
+                          <b>{data.name}</b>
+                        </h2>
                       </a>
                     </td>{" "}
                     <td className="has-text-centered">
                       <span className="tag is-info is-warning">
-                      <h3>{data.symbol}</h3>
+                        <h3>{data.symbol}</h3>
                       </span>
                     </td>{" "}
                     <td className="has-text-centered">
-                    <h3>
-                      {data.quotes.USD.price
-                        .toFixed(2)
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                      $ </h3>
+                      <h3>
+                        {data.quotes.USD.price
+                          .toFixed(2)
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                        ${" "}
+                      </h3>
                     </td>{" "}
                     <td className="has-text-centered">
-                    <h3>
-                      {data.quotes.USD.volume_24h
-                        .toFixed(2)
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                      $ </h3>
+                      <h3>
+                        {data.quotes.USD.volume_24h
+                          .toFixed(2)
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                        ${" "}
+                      </h3>
                     </td>
                     {checkIfNegative(data.quotes.USD.percent_change_30d) ? (
                       <td className="has-text-danger has-text-centered">
                         <h3>{data.quotes.USD.percent_change_30d}%</h3>
                       </td>
                     ) : (
-                      
                       <td className="has-text-success has-text-centered">
                         <h3>{data.quotes.USD.percent_change_30d}%</h3>
                       </td>
@@ -157,7 +184,6 @@ const MainPage: React.FC = () => {
                         <h3>{data.quotes.USD.percent_change_1h}%</h3>
                       </td>
                     ) : (
-                      
                       <td className="has-text-success has-text-centered">
                         <h3>{data.quotes.USD.percent_change_1h}%</h3>
                       </td>
