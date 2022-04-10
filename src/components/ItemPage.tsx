@@ -18,7 +18,7 @@ import { useHistoricalData } from "../hooks/useHistoricalData";
 import CheckIconComponent from "./CheckIconComponent";
 import AdditionalInfoString from "./AdditionalInfoString";
 
-type IntervalType = "1d" | "7d" | "30d" | "90d" | "365d";
+type IntervalType = "1h" | "1d" | "7d" | "30d" | "90d" | "365d";
 
 export interface IhistoricalData {
   timestamp: Date | string;
@@ -52,7 +52,7 @@ export interface IcoinInfo extends IcoinInfoDataBoolean, IcoinInfoDataString {
 
 const ItemPage: React.FC = () => {
   var defaultStartDate = new Date();
-  defaultStartDate.setDate(-15);
+  defaultStartDate.setDate(-20);
   const [startDate, setStartDate] = useState<string | undefined>(
     defaultStartDate.toISOString()
   );
@@ -62,6 +62,7 @@ const ItemPage: React.FC = () => {
   const [showLocalLow, setShowLocalLow] = useState<boolean>(false);
 
   const [interval, setPeriodInterval] = useState<IntervalType>("1d");
+  const [fromInterval, setFromPeriodInterval] = useState<number>(0);
 
   let { id } = useParams();
 
@@ -97,6 +98,7 @@ const ItemPage: React.FC = () => {
   };
 
   const getInterval = (interval: number) => {
+    setFromPeriodInterval(interval);
     var ourDate = new Date();
     var pastDate = ourDate.getDate() - interval;
     ourDate.setDate(pastDate);
@@ -230,7 +232,9 @@ const ItemPage: React.FC = () => {
         </div>
       ) : (
         <div className="mb-2">
-          <h3 className="has-text-centered mb-5 is-size-5">Volume and Price:</h3>
+          <h3 className="has-text-centered mb-5 is-size-5">
+            Volume and Price:
+          </h3>
           <ComposedChart
             width={1300}
             height={300}
@@ -243,11 +247,11 @@ const ItemPage: React.FC = () => {
             }}
           >
             <defs>
-                    <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="1%" stopColor="#8884d8" stopOpacity={0.95} />
-                      <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
+              <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="1%" stopColor="#8884d8" stopOpacity={0.95} />
+                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+              </linearGradient>
+            </defs>
             <CartesianGrid stroke="lightgray" strokeDasharray={5} />
             <XAxis dataKey="timestamp" scale="band" />
             <YAxis yAxisId="left" dataKey="volume_24h" />
@@ -303,14 +307,14 @@ const ItemPage: React.FC = () => {
             <Tooltip />
             <Legend />
             <Area
-            yAxisId="left"
-                type="monotone"
-                activeDot={{ r: 2 }}
-                dataKey="volume_24h"
-                stroke="#0000ea"
-                fillOpacity={1}
-                fill="url(#colorPv)"
-              />
+              yAxisId="left"
+              type="monotone"
+              activeDot={{ r: 2 }}
+              dataKey="volume_24h"
+              stroke="#0000ea"
+              fillOpacity={1}
+              fill="url(#colorPv)"
+            />
             <Line
               yAxisId="right"
               type="monotone"
@@ -322,7 +326,6 @@ const ItemPage: React.FC = () => {
       )}
       <hr />
       <div className="has-text-centered columns">
-        
         <div className="column">
           <h3 className="has-text-centered m-2 is-size-5">Chart options:</h3>
         </div>
@@ -371,36 +374,126 @@ const ItemPage: React.FC = () => {
             <h3 className="has-text-centered m-2 is-size-6">Intervals:</h3>
           </div>
           <div className="">
-            <button
-              className="button is-info is-small m-1"
-              onClick={() => setPeriodInterval("1d")}
-            >
-              1 Day
-            </button>
-            <button
-              className="button is-info is-small m-1"
-              onClick={() => setPeriodInterval("7d")}
-            >
-              7 Days
-            </button>
-            <button
-              className="button is-info is-small  m-1"
-              onClick={() => setPeriodInterval("30d")}
-            >
-              30 Days
-            </button>
-            <button
-              className="button is-info is-small  m-1"
-              onClick={() => setPeriodInterval("90d")}
-            >
-              90 Days
-            </button>
-            <button
-              className="button is-info is-small  m-1"
-              onClick={() => setPeriodInterval("365d")}
-            >
-              365 Days
-            </button>
+            {fromInterval === 1 || fromInterval === 7 ? (
+              <button
+                className={
+                  interval === "1h"
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => setPeriodInterval("1h")}
+              >
+                1 Hour
+              </button>
+            ) : (
+              <button
+                className={
+                  interval === "1h"
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => setPeriodInterval("1h")}
+                disabled
+              >
+                1 Hour
+              </button>
+            )}
+            {(fromInterval < 35 && fromInterval > 2) || fromInterval === 0 ? (
+              <button
+                className={
+                  interval === "1d"
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => setPeriodInterval("1d")}
+              >
+                1 Day
+              </button>
+            ) : (
+              <button
+                className={
+                  interval === "1d"
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => setPeriodInterval("1d")}
+                disabled
+              >
+                1 Day
+              </button>
+            )}
+            {fromInterval > 7 || fromInterval === 0 ? (
+              <button
+                className={
+                  interval === "7d"
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => setPeriodInterval("7d")}
+              >
+                7 Days
+              </button>
+            ) : (
+              <button
+                className={
+                  interval === "7d"
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => setPeriodInterval("7d")}
+                disabled
+              >
+                7 Days
+              </button>
+            )}
+            {fromInterval > 30 || fromInterval === 0 ? (
+              <button
+                className={
+                  interval === "30d"
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => setPeriodInterval("30d")}
+              >
+                30 Days
+              </button>
+            ) : (
+              <button
+                className={
+                  interval === "30d"
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => setPeriodInterval("30d")}
+                disabled
+              >
+                30 Days
+              </button>
+            )}
+            {fromInterval > 90 ? (
+              <button
+                className={
+                  interval === "90d"
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => setPeriodInterval("90d")}
+              >
+                90 Days
+              </button>
+            ) : (
+              <button
+                className={
+                  interval === "90d"
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => setPeriodInterval("90d")}
+                disabled
+              >
+                90 Days
+              </button>
+            )}
           </div>
         </div>
         <div className="column is-half is centered">
@@ -408,36 +501,108 @@ const ItemPage: React.FC = () => {
             <h3 className="has-text-centered m-2 is-size-6">Date from:</h3>
           </div>
           <div className="">
-            <button
-              className="button is-info is-active
-             is-small  m-1"
+          {interval === "1h" ? (
+              <button
+              className={
+                fromInterval === 1
+                  ? "button is-info is-small m-1"
+                  : "button is-info is-outlined is-small m-1"
+              }
               onClick={() => getInterval(1)}
             >
               Day
             </button>
-            <button
-              className="button is-info is-small  m-1"
+            ) : (
+              <button
+              className={
+                fromInterval === 1
+                  ? "button is-info is-small m-1"
+                  : "button is-info is-outlined is-small m-1"
+              }
+              onClick={() => getInterval(1)}
+              disabled
+            >
+              Day
+            </button>
+            )}
+            {interval === "1h" || interval === "1d" ? (
+              <button
+              className={
+                fromInterval === 7
+                  ? "button is-info is-small m-1"
+                  : "button is-info is-outlined is-small m-1"
+              }
               onClick={() => getInterval(7)}
             >
               Week
             </button>
-            <button
-              className="button is-info is-small  m-1"
+            ) : (
+              <button
+              className={
+                fromInterval === 7
+                  ? "button is-info is-small m-1"
+                  : "button is-info is-outlined is-small m-1"
+              }
+              onClick={() => getInterval(7)}
+              disabled
+            >
+              Week
+            </button>
+            )}
+            {interval === "1d" || interval === "7d" ? (
+              <button
+              className={
+                fromInterval === 30
+                  ? "button is-info is-small m-1"
+                  : "button is-info is-outlined is-small m-1"
+              }
               onClick={() => getInterval(30)}
             >
               Month
             </button>
-            <button
-              className="button is-info is-small  m-1"
+            ) : (
+              <button
+              className={
+                fromInterval === 30
+                  ? "button is-info is-small m-1"
+                  : "button is-info is-outlined is-small m-1"
+              }
+              onClick={() => getInterval(30)}
+              disabled
+            >
+              Month
+            </button>
+            )}
+            {interval === "7d" || interval === "30d" || interval === "90d" ? (
+              <button
+              className={
+                fromInterval === 365
+                  ? "button is-info is-small m-1"
+                  : "button is-info is-outlined is-small m-1"
+              }
               onClick={() => getInterval(365)}
             >
               Year
             </button>
+            ) : (
+              <button
+              className={
+                fromInterval === 365
+                  ? "button is-info is-small m-1"
+                  : "button is-info is-outlined is-small m-1"
+              }
+              onClick={() => getInterval(365)}
+              disabled
+            >
+              Year
+            </button>
+            )}
+            
           </div>
         </div>
       </div>
       <div>
-      <hr />
+        <hr />
         <div className="mt-3">
           <h3 className="has-text-centered is-size-5">Additional info:</h3>
         </div>
@@ -454,14 +619,14 @@ const ItemPage: React.FC = () => {
           }
           {
             <div className="column has-text-centered">
-             <AdditionalInfoString
+              <AdditionalInfoString
                 contract={coinInfo?.contract}
                 development_status={coinInfo?.development_status}
                 org_structure={coinInfo?.org_structure}
                 platform={coinInfo?.platform}
                 proof_type={coinInfo?.proof_type}
                 type={coinInfo?.type}
-             />
+              />
             </div>
           }
         </div>
