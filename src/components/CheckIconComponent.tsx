@@ -1,6 +1,6 @@
 import React from "react";
 import GreenCheckmark from "./GreenCheckmark";
-import { IcoinInfoDataBoolean } from "./ItemPage";
+import { IcoinInfoDataBoolean } from "../types";
 import RedCheckmark from "./RedCheckmark";
 
 const CheckIconComponent: React.FC<IcoinInfoDataBoolean> = ({
@@ -10,28 +10,28 @@ const CheckIconComponent: React.FC<IcoinInfoDataBoolean> = ({
   open_source,
 }) => {
   return (
-    <>
+    <div>
       {is_new ? (
-        <GreenCheckmark labelProp="New:" />
+        <GreenCheckmark labelProp="New: " />
       ) : (
         <RedCheckmark labelProp="New: " />
       )}
       {hardware_wallet ? (
-        <GreenCheckmark labelProp="Hardware wallet:" />
+        <GreenCheckmark labelProp="Hardware wallet: " />
       ) : (
-        <RedCheckmark labelProp="Hardware wallet:" />
+        <RedCheckmark labelProp="Hardware wallet: " />
       )}
       {is_active ? (
-        <GreenCheckmark labelProp="Active:" />
+        <GreenCheckmark labelProp="Active: " />
       ) : (
-        <RedCheckmark labelProp="Active:" />
+        <RedCheckmark labelProp="Active: " />
       )}
       {open_source ? (
-        <GreenCheckmark labelProp="Open source:" />
+        <GreenCheckmark labelProp="Open source: " />
       ) : (
-        <RedCheckmark labelProp="Open source:" />
+        <RedCheckmark labelProp="Open source: " />
       )}
-    </>
+    </div>
   );
 };
 

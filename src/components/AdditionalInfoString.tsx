@@ -1,5 +1,5 @@
 import React from "react";
-import { IcoinInfoDataString } from "./ItemPage";
+import { IcoinInfoDataString } from "../types";
 
 const AdditionalInfoString: React.FC<IcoinInfoDataString> = ({
   contract,
@@ -10,7 +10,7 @@ const AdditionalInfoString: React.FC<IcoinInfoDataString> = ({
   type,
 }) => {
   return (
-    <>
+    <div>
       {contract ? (
         <div className="m-2">
           <p>Contract: {contract}</p>
@@ -53,7 +53,7 @@ const AdditionalInfoString: React.FC<IcoinInfoDataString> = ({
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 };
 
