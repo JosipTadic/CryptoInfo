@@ -92,11 +92,12 @@ const MainPage: React.FC = () => {
               {data
                 .filter((data) => {
                   if (!value) return true;
-
-                  data.name.toLowerCase().includes(value) ||
-                    data.symbol.toLowerCase().includes(value);
-
-                  return true;
+                  if (
+                    data.name.toLowerCase().includes(value) ||
+                    data.symbol.toLowerCase().includes(value)
+                  ) {
+                    return true;
+                  }
                 })
                 .map(({ ...data }: Idata) => (
                   <tr key={data.id}>
