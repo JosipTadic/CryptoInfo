@@ -13,6 +13,7 @@ import {
   Legend,
   ComposedChart,
   ReferenceLine,
+  ResponsiveContainer,
 } from "recharts";
 import { useHistoricalData } from "../hooks/useHistoricalData";
 import CheckIconComponent from "./CheckIconComponent";
@@ -116,6 +117,7 @@ const ItemPage: React.FC = () => {
   };*/
   return (
     <>
+    <section>
       <div className="columns is-vcentered is-centered mt-5">
         <div className="column ml-2">
           <Link to="/">
@@ -129,11 +131,12 @@ const ItemPage: React.FC = () => {
         </div>
         <div className="column"></div>
       </div>
+      </section>
       <div className="has-text-centered is-align-content-stretch m-2">
         <hr />
         {coinInfo?.description ? (
           <>
-            <h2 className="is-size-5">{coinInfo.description} </h2>
+            <h2 className="is-size-6">{coinInfo.description} </h2>
             <hr />
           </>
         ) : (
@@ -142,38 +145,126 @@ const ItemPage: React.FC = () => {
       </div>
       {showTwoCharts ? (
         <div className="columns has-text-centered">
-          <div className="column is-half">
-            <h3 className="mb-2 is-size-5">Volume:</h3>
-            <AreaChart
-              width={550}
-              height={300}
+          <div className="column is-half is-custom-phone-height">
+            <h3 className="mb-2 is-size-6">Volume:</h3>
+            <ResponsiveContainer width="95%" height="90%">
+              <AreaChart
+                data={historicalData}
+                margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
+              >
+                <defs>
+                  <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="1%" stopColor="#0b0073" stopOpacity={0.95} />
+                    <stop offset="95%" stopColor="#050253" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="timestamp" interval={5} angle={0} dx={20} />
+                <YAxis />
+                <CartesianGrid stroke="lightgray" strokeDasharray={5} />
+                <Tooltip />
+                <Area
+                  type="monotone"
+                  activeDot={{ r: 3 }}
+                  dataKey="volume_24h"
+                  stroke="#8884d8"
+                  fillOpacity={1}
+                  fill="url(#colorUv)"
+                />
+                {showLocalHigh ? (
+                  <ReferenceLine
+                    y={volumeLocalHigh}
+                    label={volumeLocalHigh}
+                    stroke="red"
+                    strokeDasharray={9}
+                    ifOverflow="extendDomain"
+                  />
+                ) : (
+                  ""
+                )}
+                {showLocalLow ? (
+                  <ReferenceLine
+                    y={volumeLocalLow}
+                    label={volumeLocalLow}
+                    stroke="red"
+                    strokeDasharray={9}
+                    ifOverflow="extendDomain"
+                  />
+                ) : (
+                  ""
+                )}
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="column is-half is-custom-phone-height">
+            <h3 className="mb-2 is-size-6">Price:</h3>
+            <ResponsiveContainer width="95%" height="90%" >
+              <LineChart
+                data={historicalData}
+                margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
+              >
+                <CartesianGrid stroke="lightgray" strokeDasharray={5} />
+                <XAxis dataKey="timestamp" />
+                <YAxis />
+                <Tooltip />
+                {showLocalHigh ? (
+                  <ReferenceLine
+                    y={priceLocalHigh}
+                    label={priceLocalHigh}
+                    stroke="red"
+                    strokeDasharray={9}
+                    ifOverflow="extendDomain"
+                  />
+                ) : (
+                  ""
+                )}
+                {showLocalLow ? (
+                  <ReferenceLine
+                    y={priceLocalLow}
+                    label={priceLocalLow}
+                    stroke="red"
+                    strokeDasharray={9}
+                    ifOverflow="extendDomain"
+                  />
+                ) : (
+                  ""
+                )}
+                <Line type="monotone" dataKey="price" stroke="#8884d8" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      ) : (
+        <div className="columns is-centered has-text-centered">
+        <div className="column is-custom-phone-height">
+          <h3 className="mb-5 is-size-6">
+            Volume and Price:
+          </h3>
+          <ResponsiveContainer width="97%" height="90%">
+            <ComposedChart
               data={historicalData}
-              margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
+              margin={{
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 80,
+              }}
             >
               <defs>
-                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="1%" stopColor="#0b0073" stopOpacity={0.95} />
-                  <stop offset="95%" stopColor="#050253" stopOpacity={0} />
+                <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="1%" stopColor="#8884d8" stopOpacity={0.95} />
+                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <XAxis dataKey="timestamp" interval={5} angle={0} dx={20} />
-              <YAxis />
               <CartesianGrid stroke="lightgray" strokeDasharray={5} />
-              <Tooltip />
-              <Area
-                type="monotone"
-                activeDot={{ r: 3 }}
-                dataKey="volume_24h"
-                stroke="#8884d8"
-                fillOpacity={1}
-                fill="url(#colorUv)"
-              />
+              <XAxis dataKey="timestamp" scale="band" />
+              <YAxis yAxisId="left" dataKey="volume_24h" />
               {showLocalHigh ? (
                 <ReferenceLine
                   y={volumeLocalHigh}
-                  label={volumeLocalHigh}
+                  yAxisId="left"
+                  label="Max volume"
                   stroke="red"
-                  strokeDasharray={9}
+                  strokeDasharray={12}
                   ifOverflow="extendDomain"
                 />
               ) : (
@@ -182,34 +273,23 @@ const ItemPage: React.FC = () => {
               {showLocalLow ? (
                 <ReferenceLine
                   y={volumeLocalLow}
-                  label={volumeLocalLow}
+                  yAxisId="left"
+                  label="Min volume"
                   stroke="red"
-                  strokeDasharray={9}
+                  strokeDasharray={12}
                   ifOverflow="extendDomain"
                 />
               ) : (
                 ""
               )}
-            </AreaChart>
-          </div>
-          <div className="column is-half">
-            <h3 className="mb-2 is-size-5">Price:</h3>
-            <LineChart
-              width={550}
-              height={300}
-              data={historicalData}
-              margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
-            >
-              <CartesianGrid stroke="lightgray" strokeDasharray={5} />
-              <XAxis dataKey="timestamp" />
-              <YAxis />
-              <Tooltip />
+              <YAxis yAxisId="right" dataKey="price" orientation="right" />
               {showLocalHigh ? (
                 <ReferenceLine
                   y={priceLocalHigh}
-                  label={priceLocalHigh}
+                  yAxisId="right"
+                  label="Max price"
                   stroke="red"
-                  strokeDasharray={9}
+                  strokeDasharray={12}
                   ifOverflow="extendDomain"
                 />
               ) : (
@@ -218,116 +298,41 @@ const ItemPage: React.FC = () => {
               {showLocalLow ? (
                 <ReferenceLine
                   y={priceLocalLow}
-                  label={priceLocalLow}
+                  yAxisId="right"
+                  label="Min price"
                   stroke="red"
-                  strokeDasharray={9}
+                  strokeDasharray={12}
                   ifOverflow="extendDomain"
                 />
               ) : (
                 ""
               )}
-              <Line type="monotone" dataKey="price" stroke="#8884d8" />
-            </LineChart>
+              <Tooltip />
+              <Legend />
+              <Area
+                yAxisId="left"
+                type="monotone"
+                activeDot={{ r: 2 }}
+                dataKey="volume_24h"
+                stroke="#0000ea"
+                fillOpacity={1}
+                fill="url(#colorPv)"
+              />
+              <Line
+                yAxisId="right"
+                type="monotone"
+                dataKey="price"
+                stroke="#060040"
+              />
+            </ComposedChart>
+          </ResponsiveContainer>
           </div>
-        </div>
-      ) : (
-        <div className="mb-2">
-          <h3 className="has-text-centered mb-5 is-size-5">
-            Volume and Price:
-          </h3>
-          <ComposedChart
-            width={1300}
-            height={300}
-            data={historicalData}
-            margin={{
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 80,
-            }}
-          >
-            <defs>
-              <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="1%" stopColor="#8884d8" stopOpacity={0.95} />
-                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid stroke="lightgray" strokeDasharray={5} />
-            <XAxis dataKey="timestamp" scale="band" />
-            <YAxis yAxisId="left" dataKey="volume_24h" />
-            {showLocalHigh ? (
-              <ReferenceLine
-                y={volumeLocalHigh}
-                yAxisId="left"
-                label="Max volume"
-                stroke="red"
-                strokeDasharray={12}
-                ifOverflow="extendDomain"
-              />
-            ) : (
-              ""
-            )}
-            {showLocalLow ? (
-              <ReferenceLine
-                y={volumeLocalLow}
-                yAxisId="left"
-                label="Min volume"
-                stroke="red"
-                strokeDasharray={12}
-                ifOverflow="extendDomain"
-              />
-            ) : (
-              ""
-            )}
-            <YAxis yAxisId="right" dataKey="price" orientation="right" />
-            {showLocalHigh ? (
-              <ReferenceLine
-                y={priceLocalHigh}
-                yAxisId="right"
-                label="Max price"
-                stroke="red"
-                strokeDasharray={12}
-                ifOverflow="extendDomain"
-              />
-            ) : (
-              ""
-            )}
-            {showLocalLow ? (
-              <ReferenceLine
-                y={priceLocalLow}
-                yAxisId="right"
-                label="Min price"
-                stroke="red"
-                strokeDasharray={12}
-                ifOverflow="extendDomain"
-              />
-            ) : (
-              ""
-            )}
-            <Tooltip />
-            <Legend />
-            <Area
-              yAxisId="left"
-              type="monotone"
-              activeDot={{ r: 2 }}
-              dataKey="volume_24h"
-              stroke="#0000ea"
-              fillOpacity={1}
-              fill="url(#colorPv)"
-            />
-            <Line
-              yAxisId="right"
-              type="monotone"
-              dataKey="price"
-              stroke="#060040"
-            />
-          </ComposedChart>
         </div>
       )}
       <hr />
       <div className="has-text-centered columns">
         <div className="column">
-          <h3 className="has-text-centered m-2 is-size-5">Chart options:</h3>
+          <h3 className="has-text-centered m-2 is-size-6">Chart options:</h3>
         </div>
       </div>
       <div className="has-text-centered columns">
@@ -501,110 +506,109 @@ const ItemPage: React.FC = () => {
             <h3 className="has-text-centered m-2 is-size-6">Date from:</h3>
           </div>
           <div className="">
-          {interval === "1h" ? (
+            {interval === "1h" ? (
               <button
-              className={
-                fromInterval === 1
-                  ? "button is-info is-small m-1"
-                  : "button is-info is-outlined is-small m-1"
-              }
-              onClick={() => getInterval(1)}
-            >
-              Day
-            </button>
+                className={
+                  fromInterval === 1
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => getInterval(1)}
+              >
+                Day
+              </button>
             ) : (
               <button
-              className={
-                fromInterval === 1
-                  ? "button is-info is-small m-1"
-                  : "button is-info is-outlined is-small m-1"
-              }
-              onClick={() => getInterval(1)}
-              disabled
-            >
-              Day
-            </button>
+                className={
+                  fromInterval === 1
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => getInterval(1)}
+                disabled
+              >
+                Day
+              </button>
             )}
             {interval === "1h" || interval === "1d" ? (
               <button
-              className={
-                fromInterval === 7
-                  ? "button is-info is-small m-1"
-                  : "button is-info is-outlined is-small m-1"
-              }
-              onClick={() => getInterval(7)}
-            >
-              Week
-            </button>
+                className={
+                  fromInterval === 7
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => getInterval(7)}
+              >
+                Week
+              </button>
             ) : (
               <button
-              className={
-                fromInterval === 7
-                  ? "button is-info is-small m-1"
-                  : "button is-info is-outlined is-small m-1"
-              }
-              onClick={() => getInterval(7)}
-              disabled
-            >
-              Week
-            </button>
+                className={
+                  fromInterval === 7
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => getInterval(7)}
+                disabled
+              >
+                Week
+              </button>
             )}
             {interval === "1d" || interval === "7d" ? (
               <button
-              className={
-                fromInterval === 30
-                  ? "button is-info is-small m-1"
-                  : "button is-info is-outlined is-small m-1"
-              }
-              onClick={() => getInterval(30)}
-            >
-              Month
-            </button>
+                className={
+                  fromInterval === 30
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => getInterval(30)}
+              >
+                Month
+              </button>
             ) : (
               <button
-              className={
-                fromInterval === 30
-                  ? "button is-info is-small m-1"
-                  : "button is-info is-outlined is-small m-1"
-              }
-              onClick={() => getInterval(30)}
-              disabled
-            >
-              Month
-            </button>
+                className={
+                  fromInterval === 30
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => getInterval(30)}
+                disabled
+              >
+                Month
+              </button>
             )}
             {interval === "7d" || interval === "30d" || interval === "90d" ? (
               <button
-              className={
-                fromInterval === 365
-                  ? "button is-info is-small m-1"
-                  : "button is-info is-outlined is-small m-1"
-              }
-              onClick={() => getInterval(365)}
-            >
-              Year
-            </button>
+                className={
+                  fromInterval === 365
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => getInterval(365)}
+              >
+                Year
+              </button>
             ) : (
               <button
-              className={
-                fromInterval === 365
-                  ? "button is-info is-small m-1"
-                  : "button is-info is-outlined is-small m-1"
-              }
-              onClick={() => getInterval(365)}
-              disabled
-            >
-              Year
-            </button>
+                className={
+                  fromInterval === 365
+                    ? "button is-info is-small m-1"
+                    : "button is-info is-outlined is-small m-1"
+                }
+                onClick={() => getInterval(365)}
+                disabled
+              >
+                Year
+              </button>
             )}
-            
           </div>
         </div>
       </div>
       <div>
         <hr />
         <div className="mt-3">
-          <h3 className="has-text-centered is-size-5">Additional info:</h3>
+          <h3 className="has-text-centered is-size-6">Additional info:</h3>
         </div>
         <div className="columns">
           {
