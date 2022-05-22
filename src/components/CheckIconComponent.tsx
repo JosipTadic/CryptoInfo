@@ -10,7 +10,7 @@ const CheckIconComponent: React.FC<IcoinInfoDataBoolean> = ({
   open_source,
 }) => {
   return (
-    <div>
+    <div className="mt-2 ml-5">
       {is_new ? (
         <GreenCheckmark labelProp="New: " />
       ) : (

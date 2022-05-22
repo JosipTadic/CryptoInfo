@@ -10,44 +10,44 @@ const AdditionalInfoString: React.FC<IcoinInfoDataString> = ({
   type,
 }) => {
   return (
-    <div>
+    <div className="mt-5">
       {contract ? (
-        <div className="m-2">
+        <div className="m-2 is-size-5">
           <p>Contract: {contract}</p>
         </div>
       ) : (
         <></>
       )}
       {development_status ? (
-        <div className="m-2">
+        <div className="m-2 is-size-5">
           <p>Development status: {development_status}</p>
         </div>
       ) : (
         <></>
       )}
       {org_structure ? (
-        <div className="m-2">
+        <div className="m-2 is-size-5">
           <p>Organization structure: {org_structure}</p>
         </div>
       ) : (
         <></>
       )}
       {platform ? (
-        <div className="m-2">
+        <div className="m-2 is-size-5">
           <p>Platform: {platform}</p>
         </div>
       ) : (
         <></>
       )}
       {proof_type ? (
-        <div className="m-2">
+        <div className="m-2 is-size-5">
           <p>Proof type: {proof_type}</p>
         </div>
       ) : (
         <></>
       )}
       {type ? (
-        <div className="m-2">
+        <div className="m-2  is-size-5">
           <p>Type: {type}</p>
         </div>
       ) : (

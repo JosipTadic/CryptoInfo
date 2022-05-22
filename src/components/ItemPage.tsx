@@ -77,26 +77,26 @@ const ItemPage: React.FC = () => {
 
   return (
     <>
-    <section>
-      <div className="columns is-vcentered is-centered mt-5">
-        <div className="column ml-2">
-          <Link to="/">
-            <button className="button is-info is-rounded is-outlined">
-              <p> &lt; Back</p>
-            </button>
-          </Link>
+      <section>
+        <div className="columns is-vcentered is-centered mt-5 is-flex">
+          <div className="column ml-2">
+            <Link to="/">
+              <button className="button is-info is-rounded is-outlined">
+                <p> &lt; Back</p>
+              </button>
+            </Link>
+          </div>
+          <div className="column has-text-centered">
+            <h1 className="is-size-3">{coinInfo?.name}</h1>
+          </div>
+          <div className="column"></div>
         </div>
-        <div className="column has-text-centered">
-          <h1 className="is-size-3">{coinInfo?.name}</h1>
-        </div>
-        <div className="column"></div>
-      </div>
       </section>
       <div className="has-text-centered is-align-content-stretch m-2">
         <hr />
         {coinInfo?.description ? (
           <>
-            <h2 className="is-size-6">{coinInfo.description} </h2>
+            <h2 className="is-size-5">{coinInfo.description} </h2>
             <hr />
           </>
         ) : (
@@ -106,7 +106,7 @@ const ItemPage: React.FC = () => {
       {showTwoCharts ? (
         <div className="columns has-text-centered">
           <div className="column is-half is-custom-phone-height">
-            <h3 className="mb-2 is-size-6">Volume:</h3>
+            <h3 className="mb-2 is-size-5">Volume:</h3>
             <ResponsiveContainer width="95%" height="90%">
               <AreaChart
                 data={historicalData}
@@ -156,8 +156,8 @@ const ItemPage: React.FC = () => {
             </ResponsiveContainer>
           </div>
           <div className="column is-half is-custom-phone-height">
-            <h3 className="mb-2 is-size-6">Price:</h3>
-            <ResponsiveContainer width="95%" height="90%" >
+            <h3 className="mb-2 is-size-5">Price:</h3>
+            <ResponsiveContainer width="95%" height="90%">
               <LineChart
                 data={historicalData}
                 margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
@@ -195,109 +195,107 @@ const ItemPage: React.FC = () => {
         </div>
       ) : (
         <div className="columns is-centered has-text-centered">
-        <div className="column is-custom-phone-height">
-          <h3 className="mb-5 is-size-6">
-            Volume and Price:
-          </h3>
-          <ResponsiveContainer width="97%" height="90%">
-            <ComposedChart
-              data={historicalData}
-              margin={{
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: 80,
-              }}
-            >
-              <defs>
-                <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="1%" stopColor="#8884d8" stopOpacity={0.95} />
-                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid stroke="lightgray" strokeDasharray={5} />
-              <XAxis dataKey="timestamp" scale="band" />
-              <YAxis yAxisId="left" dataKey="volume_24h" />
-              {showLocalHigh ? (
-                <ReferenceLine
-                  y={volumeLocalHigh}
+          <div className="column is-custom-phone-height">
+            <h3 className="mb-5 is-size-4">Volume and Price:</h3>
+            <ResponsiveContainer width="97%" height="90%">
+              <ComposedChart
+                data={historicalData}
+                margin={{
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: 80,
+                }}
+              >
+                <defs>
+                  <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="1%" stopColor="#8884d8" stopOpacity={0.95} />
+                    <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid stroke="lightgray" strokeDasharray={5} />
+                <XAxis dataKey="timestamp" scale="band" />
+                <YAxis yAxisId="left" dataKey="volume_24h" />
+                {showLocalHigh ? (
+                  <ReferenceLine
+                    y={volumeLocalHigh}
+                    yAxisId="left"
+                    label="Max volume"
+                    stroke="red"
+                    strokeDasharray={12}
+                    ifOverflow="extendDomain"
+                  />
+                ) : (
+                  ""
+                )}
+                {showLocalLow ? (
+                  <ReferenceLine
+                    y={volumeLocalLow}
+                    yAxisId="left"
+                    label="Min volume"
+                    stroke="red"
+                    strokeDasharray={12}
+                    ifOverflow="extendDomain"
+                  />
+                ) : (
+                  ""
+                )}
+                <YAxis yAxisId="right" dataKey="price" orientation="right" />
+                {showLocalHigh ? (
+                  <ReferenceLine
+                    y={priceLocalHigh}
+                    yAxisId="right"
+                    label="Max price"
+                    stroke="red"
+                    strokeDasharray={12}
+                    ifOverflow="extendDomain"
+                  />
+                ) : (
+                  ""
+                )}
+                {showLocalLow ? (
+                  <ReferenceLine
+                    y={priceLocalLow}
+                    yAxisId="right"
+                    label="Min price"
+                    stroke="red"
+                    strokeDasharray={12}
+                    ifOverflow="extendDomain"
+                  />
+                ) : (
+                  ""
+                )}
+                <Tooltip />
+                <Legend />
+                <Area
                   yAxisId="left"
-                  label="Max volume"
-                  stroke="red"
-                  strokeDasharray={12}
-                  ifOverflow="extendDomain"
+                  type="monotone"
+                  activeDot={{ r: 2 }}
+                  dataKey="volume_24h"
+                  stroke="#0000ea"
+                  fillOpacity={1}
+                  fill="url(#colorPv)"
                 />
-              ) : (
-                ""
-              )}
-              {showLocalLow ? (
-                <ReferenceLine
-                  y={volumeLocalLow}
-                  yAxisId="left"
-                  label="Min volume"
-                  stroke="red"
-                  strokeDasharray={12}
-                  ifOverflow="extendDomain"
-                />
-              ) : (
-                ""
-              )}
-              <YAxis yAxisId="right" dataKey="price" orientation="right" />
-              {showLocalHigh ? (
-                <ReferenceLine
-                  y={priceLocalHigh}
+                <Line
                   yAxisId="right"
-                  label="Max price"
-                  stroke="red"
-                  strokeDasharray={12}
-                  ifOverflow="extendDomain"
+                  type="monotone"
+                  dataKey="price"
+                  stroke="#060040"
                 />
-              ) : (
-                ""
-              )}
-              {showLocalLow ? (
-                <ReferenceLine
-                  y={priceLocalLow}
-                  yAxisId="right"
-                  label="Min price"
-                  stroke="red"
-                  strokeDasharray={12}
-                  ifOverflow="extendDomain"
-                />
-              ) : (
-                ""
-              )}
-              <Tooltip />
-              <Legend />
-              <Area
-                yAxisId="left"
-                type="monotone"
-                activeDot={{ r: 2 }}
-                dataKey="volume_24h"
-                stroke="#0000ea"
-                fillOpacity={1}
-                fill="url(#colorPv)"
-              />
-              <Line
-                yAxisId="right"
-                type="monotone"
-                dataKey="price"
-                stroke="#060040"
-              />
-            </ComposedChart>
-          </ResponsiveContainer>
+              </ComposedChart>
+            </ResponsiveContainer>
           </div>
         </div>
       )}
       <hr />
       <div className="has-text-centered columns">
         <div className="column">
-          <h3 className="has-text-centered m-2 is-size-6">Chart options:</h3>
+          <h3 className="has-text-centered m-2 is-size-4">Chart options:</h3>
         </div>
       </div>
       <div className="has-text-centered columns">
         <div className="m-1 column"></div>
-        <div className="m-1 column">
+        <div className="m-1 column is-size-5">
           <input
             type="checkbox"
             id="showTwoCharts"
@@ -309,7 +307,7 @@ const ItemPage: React.FC = () => {
           <label htmlFor="showTwoCharts"> Separate price and volume</label>
         </div>
 
-        <div className="m-1 column">
+        <div className="m-1 column is-size-5">
           <input
             type="checkbox"
             id="showLocalHigh"
@@ -320,7 +318,7 @@ const ItemPage: React.FC = () => {
           />
           <label htmlFor="showLocalHigh"> Show highest value</label>
         </div>
-        <div className="m-1 column">
+        <div className="m-1 column is-size-5">
           <input
             type="checkbox"
             id="showLocalLow"
@@ -336,15 +334,15 @@ const ItemPage: React.FC = () => {
       <div className="columns is-vcentered is-centered has-text-centered">
         <div className="column is-half is-vcentered is-centered">
           <div className="">
-            <h3 className="has-text-centered m-2 is-size-6">Intervals:</h3>
+            <h3 className="has-text-centered m-2 is-size-5">Intervals:</h3>
           </div>
           <div className="">
-            {fromInterval === 1 || fromInterval === 7 ? (
+            {/*fromInterval === 1 || fromInterval === 7 ? (
               <button
                 className={
                   interval === "1h"
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => setPeriodInterval("1h")}
               >
@@ -354,21 +352,21 @@ const ItemPage: React.FC = () => {
               <button
                 className={
                   interval === "1h"
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => setPeriodInterval("1h")}
                 disabled
               >
                 1 Hour
               </button>
-            )}
+              )*/}
             {(fromInterval < 35 && fromInterval > 2) || fromInterval === 0 ? (
               <button
                 className={
                   interval === "1d"
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => setPeriodInterval("1d")}
               >
@@ -378,8 +376,8 @@ const ItemPage: React.FC = () => {
               <button
                 className={
                   interval === "1d"
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => setPeriodInterval("1d")}
                 disabled
@@ -391,8 +389,8 @@ const ItemPage: React.FC = () => {
               <button
                 className={
                   interval === "7d"
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => setPeriodInterval("7d")}
               >
@@ -402,8 +400,8 @@ const ItemPage: React.FC = () => {
               <button
                 className={
                   interval === "7d"
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => setPeriodInterval("7d")}
                 disabled
@@ -415,8 +413,8 @@ const ItemPage: React.FC = () => {
               <button
                 className={
                   interval === "30d"
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => setPeriodInterval("30d")}
               >
@@ -426,8 +424,8 @@ const ItemPage: React.FC = () => {
               <button
                 className={
                   interval === "30d"
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => setPeriodInterval("30d")}
                 disabled
@@ -439,8 +437,8 @@ const ItemPage: React.FC = () => {
               <button
                 className={
                   interval === "90d"
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => setPeriodInterval("90d")}
               >
@@ -450,8 +448,8 @@ const ItemPage: React.FC = () => {
               <button
                 className={
                   interval === "90d"
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => setPeriodInterval("90d")}
                 disabled
@@ -463,15 +461,15 @@ const ItemPage: React.FC = () => {
         </div>
         <div className="column is-half is centered">
           <div>
-            <h3 className="has-text-centered m-2 is-size-6">Date from:</h3>
+            <h3 className="has-text-centered m-2 is-size-5">Date from:</h3>
           </div>
           <div className="">
-            {interval === "1h" ? (
+            {/*interval === "1h" ? (
               <button
                 className={
                   fromInterval === 1
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => getInterval(1)}
               >
@@ -481,21 +479,21 @@ const ItemPage: React.FC = () => {
               <button
                 className={
                   fromInterval === 1
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => getInterval(1)}
                 disabled
               >
                 Day
               </button>
-            )}
+            )*/}
             {interval === "1h" || interval === "1d" ? (
               <button
                 className={
                   fromInterval === 7
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => getInterval(7)}
               >
@@ -505,8 +503,8 @@ const ItemPage: React.FC = () => {
               <button
                 className={
                   fromInterval === 7
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => getInterval(7)}
                 disabled
@@ -518,8 +516,8 @@ const ItemPage: React.FC = () => {
               <button
                 className={
                   fromInterval === 30
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => getInterval(30)}
               >
@@ -529,8 +527,8 @@ const ItemPage: React.FC = () => {
               <button
                 className={
                   fromInterval === 30
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => getInterval(30)}
                 disabled
@@ -542,8 +540,8 @@ const ItemPage: React.FC = () => {
               <button
                 className={
                   fromInterval === 365
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => getInterval(365)}
               >
@@ -553,8 +551,8 @@ const ItemPage: React.FC = () => {
               <button
                 className={
                   fromInterval === 365
-                    ? "button is-info is-small m-1"
-                    : "button is-info is-outlined is-small m-1"
+                    ? "button is-info  m-1"
+                    : "button is-info is-outlined  m-1"
                 }
                 onClick={() => getInterval(365)}
                 disabled
@@ -568,19 +566,9 @@ const ItemPage: React.FC = () => {
       <div>
         <hr />
         <div className="mt-3">
-          <h3 className="has-text-centered is-size-6">Additional info:</h3>
+          <h3 className="has-text-centered is-size-4">Additional info:</h3>
         </div>
         <div className="columns">
-          {
-            <div className="column">
-              <CheckIconComponent
-                is_new={coinInfo?.is_new}
-                hardware_wallet={coinInfo?.hardware_wallet}
-                is_active={coinInfo?.is_active}
-                open_source={coinInfo?.open_source}
-              />
-            </div>
-          }
           {
             <div className="column has-text-centered">
               <AdditionalInfoString
@@ -590,6 +578,16 @@ const ItemPage: React.FC = () => {
                 platform={coinInfo?.platform}
                 proof_type={coinInfo?.proof_type}
                 type={coinInfo?.type}
+              />
+            </div>
+          }
+          {
+            <div className="column">
+              <CheckIconComponent
+                is_new={coinInfo?.is_new}
+                hardware_wallet={coinInfo?.hardware_wallet}
+                is_active={coinInfo?.is_active}
+                open_source={coinInfo?.open_source}
               />
             </div>
           }
@@ -674,7 +672,7 @@ export default ItemPage;
         </div>
 
         <button
-              className="button is-info is-small  m-1"
+              className="button is-info   m-1"
               onClick={fromStart}
             >
               From start

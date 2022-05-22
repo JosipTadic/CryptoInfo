@@ -47,7 +47,7 @@ const MainPage: React.FC = () => {
   const [value, setValue] = useState("");
 
   return (
-    <>
+    <div className="hero is-fullheight">
       <div className="control">
         <div className="field m-2">
           <p className="control has-icons-right"></p>
@@ -58,7 +58,6 @@ const MainPage: React.FC = () => {
             onChange={(e) => setValue(e.target.value.toLowerCase())}
           />
         </div>
-        <section>
         <div className="m-2 table-container">
           <table className="table is-striped is-hoverable is-fullwidth">
             <thead>
@@ -255,8 +254,8 @@ const MainPage: React.FC = () => {
               </tr>
               <tr>
                 <td colSpan={8}>
-                  <div className="columns is-justify-content-center m-2">
-                    Currently displaying {skipPage[0]} - {skipPage[1]}{" "}
+                  <div className="columns has-text-centered is-justify-content-center m-2">
+                    Displaying {skipPage[0]} - {skipPage[1]}{" "}
                     cryptocurrencies sorted by volume
                   </div>
                 </td>
@@ -264,9 +263,8 @@ const MainPage: React.FC = () => {
             </tfoot>
           </table>
         </div>
-        </section>
       </div>
-    </>
+    </div>
   );
 };
 
