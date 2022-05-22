@@ -1,10 +1,10 @@
 import { FC } from "react";
 import redCheckmark from "../icons/close-red.png";
-import { IlabelProps } from "./GreenCheckmark";
+import { IlabelProps } from "../types";
 
 const RedCheckmark: FC<IlabelProps> = (labelProp) => {
   return (
-    <>
+    <div>
       <div className="columns m-1">
         <div className="column ml-2">
           <p>{labelProp.labelProp}</p>
@@ -15,7 +15,7 @@ const RedCheckmark: FC<IlabelProps> = (labelProp) => {
           </figure>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

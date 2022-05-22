@@ -18,38 +18,7 @@ import {
 import { useHistoricalData } from "../hooks/useHistoricalData";
 import CheckIconComponent from "./CheckIconComponent";
 import AdditionalInfoString from "./AdditionalInfoString";
-
-type IntervalType = "1h" | "1d" | "7d" | "30d" | "90d" | "365d";
-
-export interface IhistoricalData {
-  timestamp: Date | string;
-  price: number;
-  volume_24h: number;
-  market_cap: number;
-}
-export interface IhistoricalData extends Array<IhistoricalData> {}
-
-export interface IcoinInfoDataBoolean {
-  is_new: boolean | undefined;
-  is_active: boolean | undefined;
-  open_source: boolean | undefined;
-  hardware_wallet: boolean | undefined;
-}
-export interface IcoinInfoDataString {
-  type?: string;
-  contract?: string;
-  platform?: string;
-  development_status?: string;
-  proof_type?: string;
-  org_structure?: string;
-}
-export interface IcoinInfo extends IcoinInfoDataBoolean, IcoinInfoDataString {
-  id: string;
-  name: string;
-  symbol: string;
-  description: string;
-  first_data_at: string;
-}
+import { IcoinInfo, IntervalType } from "../types";
 
 const ItemPage: React.FC = () => {
   var defaultStartDate = new Date();
@@ -105,16 +74,7 @@ const ItemPage: React.FC = () => {
     ourDate.setDate(pastDate);
     setStartDate(ourDate.toISOString());
   };
-  /*const coinInfoBoolean: IcoinInfoDataBoolean = {
-    is_new: coinInfo?.is_new,
-    hardware_wallet: coinInfo?.hardware_wallet,
-    is_active: coinInfo?.is_active,
-    open_source: coinInfo?.open_source,
-  };*/
-  /*const fromStart = () => {
-    const dateStart = coinInfo?.first_data_at;
-    setStartDate(dateStart);
-  };*/
+
   return (
     <>
     <section>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { IhistoricalData } from "../components/ItemPage";
+import { IhistoricalData } from "../types";
 
 export const useHistoricalData = (
   id: string | undefined,

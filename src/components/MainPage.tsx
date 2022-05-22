@@ -1,51 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "bulma/css/bulma.min.css";
-
-export interface Idata {
-  id: string;
-  name: string;
-  symbol: string;
-  rank: number;
-  circulating_supply: number;
-  total_supply: number;
-  max_supply: number;
-  beta_value: number;
-  first_data_at: Date;
-  last_updated: Date;
-  quotes: Iqoutes;
-}
-export interface Iqoutes {
-  USD: IUSD;
-}
-export interface IUSD {
-  price: number;
-  volume_24h: number;
-  volume_24h_change_24h: number;
-  market_cap: number;
-  market_cap_change_24h: number;
-  percent_change_15m: number;
-  percent_change_30m: number;
-  percent_change_1h: number;
-  percent_change_6h: number;
-  percent_change_12h: number;
-  percent_change_24h: number;
-  percent_change_7d: number;
-  percent_change_30d: number;
-  percent_change_1y: number;
-  ath_price: number;
-  ath_date: Date;
-  percent_from_price_ath: number;
-}
+import { Idata } from "../types";
 
 const MainPage: React.FC = () => {
   const [data, setData] = useState<Idata[]>([]);
   useEffect(() => {
-    //const interval = setInterval(() => {
     fetch("https://api.coinpaprika.com/v1/tickers?limit=500")
       .then((res) => res.json())
       .then(setData);
-    /*}, 30000);
-    return () => clearInterval(interval);*/
   }, []);
   const [skipPage, setSkipPage] = useState([0, 20]);
 
@@ -82,14 +44,19 @@ const MainPage: React.FC = () => {
       return false;
     }
   };
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState("");
 
   return (
     <>
       <div className="control">
         <div className="field m-2">
           <p className="control has-icons-right"></p>
-          <input className="input" type="search" placeholder="Search by name or symbol..." onChange={e => setValue(e.target.value.toLowerCase())}  />
+          <input
+            className="input"
+            type="search"
+            placeholder="Search by name or symbol..."
+            onChange={(e) => setValue(e.target.value.toLowerCase())}
+          />
         </div>
         <div className="field m-2">
           <table className="table is-striped is-hoverable is-fullwidth">
@@ -125,7 +92,10 @@ const MainPage: React.FC = () => {
               {data
                 .filter((data) => {
                   if (!value) return true;
-                  if (data.name.toLowerCase().includes(value) || data.symbol.toLowerCase().includes(value)) {
+                  if (
+                    data.name.toLowerCase().includes(value) ||
+                    data.symbol.toLowerCase().includes(value)
+                  ) {
                     return true;
                   }
                 })
