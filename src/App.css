@@ -4,6 +4,10 @@
 body {
   width: 100%;
 }
+.custom-table-container{
+  overflow-x: auto;
+  max-width: 100%;
+}
 .is-custom-phone-height {
   height: 500px;
 }
@@ -17,9 +21,9 @@ body {
     height: 400px;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .is-custom-phone-height {
     height: 300px;
-    margin-left: -2em;
+    margin-left: -3.5em;
   }
 }

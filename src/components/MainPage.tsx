@@ -58,11 +58,12 @@ const MainPage: React.FC = () => {
             onChange={(e) => setValue(e.target.value.toLowerCase())}
           />
         </div>
-        <div className="field m-2">
+        <section>
+        <div className="m-2 table-container">
           <table className="table is-striped is-hoverable is-fullwidth">
             <thead>
               <tr>
-                <td className="">
+                <td>
                   <h1>Name</h1>
                 </td>
                 <td className="has-text-centered">
@@ -71,25 +72,26 @@ const MainPage: React.FC = () => {
                 <td className="has-text-centered">
                   <h1>Price(USD)</h1>
                 </td>
-                <td className="has-text-centered">
+                <td className="has-text-centered is-hidden-mobile">
                   <h1>Volume(24h)</h1>
                 </td>
-                <td className="has-text-centered">
+                <td className="has-text-centered is-hidden-mobile">
                   <h1>Change(30d)</h1>
                 </td>
                 <td className="has-text-centered">
                   <h1>Change(1d)</h1>
                 </td>
-                <td className="has-text-centered">
+                <td className="has-text-centered is-hidden-mobile">
                   <h1>Change(1h)</h1>
                 </td>
-                <td className="has-text-centered">
+                <td className="has-text-centered is-hidden-mobile">
                   <h1>Change(15min)</h1>
                 </td>
               </tr>
             </thead>
             <tbody>
               {data
+              // eslint-disable-next-line
                 .filter((data) => {
                   if (!value) return true;
                   if (
@@ -122,7 +124,7 @@ const MainPage: React.FC = () => {
                         ${" "}
                       </h3>
                     </td>{" "}
-                    <td className="has-text-centered">
+                    <td className="has-text-centered is-hidden-mobile">
                       <h3>
                         {data.quotes.USD.volume_24h
                           .toFixed(2)
@@ -132,11 +134,11 @@ const MainPage: React.FC = () => {
                       </h3>
                     </td>
                     {checkIfNegative(data.quotes.USD.percent_change_30d) ? (
-                      <td className="has-text-danger has-text-centered">
+                      <td className="has-text-danger has-text-centered is-hidden-mobile">
                         <h3>{data.quotes.USD.percent_change_30d}%</h3>
                       </td>
                     ) : (
-                      <td className="has-text-success has-text-centered">
+                      <td className="has-text-success has-text-centered is-hidden-mobile">
                         <h3>{data.quotes.USD.percent_change_30d}%</h3>
                       </td>
                     )}
@@ -150,20 +152,20 @@ const MainPage: React.FC = () => {
                       </td>
                     )}
                     {checkIfNegative(data.quotes.USD.percent_change_1h) ? (
-                      <td className="has-text-danger has-text-centered">
+                      <td className="has-text-danger has-text-centered is-hidden-mobile">
                         <h3>{data.quotes.USD.percent_change_1h}%</h3>
                       </td>
                     ) : (
-                      <td className="has-text-success has-text-centered">
+                      <td className="has-text-success has-text-centered is-hidden-mobile">
                         <h3>{data.quotes.USD.percent_change_1h}%</h3>
                       </td>
                     )}
                     {checkIfNegative(data.quotes.USD.percent_change_15m) ? (
-                      <td className="has-text-danger has-text-centered">
+                      <td className="has-text-danger has-text-centered is-hidden-mobile">
                         <h3>{data.quotes.USD.percent_change_15m}%</h3>
                       </td>
                     ) : (
-                      <td className="has-text-success has-text-centered">
+                      <td className="has-text-success has-text-centered is-hidden-mobile">
                         <h3>{data.quotes.USD.percent_change_15m}%</h3>
                       </td>
                     )}
@@ -262,6 +264,7 @@ const MainPage: React.FC = () => {
             </tfoot>
           </table>
         </div>
+        </section>
       </div>
     </>
   );
