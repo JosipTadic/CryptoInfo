@@ -90,46 +90,43 @@ const MainPage: React.FC = () => {
             </thead>
             <tbody>
               {data
-              // eslint-disable-next-line
                 .filter((data) => {
-                  if (!value) return true;
                   if (
                     data.name.toLowerCase().includes(value) ||
                     data.symbol.toLowerCase().includes(value)
                   ) {
                     return true;
                   }
+                  return false;
                 })
-                .map(({ ...data }: Idata) => (
+                .map((data) => (
                   <tr key={data.id}>
-                    <td className="">
+                    <td>
                       <a href={"historical/" + data.id}>
                         <h2>
                           <b>{data.name}</b>
                         </h2>
                       </a>
-                    </td>{" "}
+                    </td>
                     <td className="has-text-centered">
                       <span className="tag is-info is-warning">
                         <h3>{data.symbol}</h3>
                       </span>
-                    </td>{" "}
+                    </td>
                     <td className="has-text-centered">
                       <h3>
                         {data.quotes.USD.price
                           .toFixed(2)
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                        ${" "}
                       </h3>
-                    </td>{" "}
+                    </td>
                     <td className="has-text-centered is-hidden-mobile">
                       <h3>
                         {data.quotes.USD.volume_24h
                           .toFixed(2)
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                        ${" "}
                       </h3>
                     </td>
                     {checkIfNegative(data.quotes.USD.percent_change_30d) ? (
@@ -255,8 +252,8 @@ const MainPage: React.FC = () => {
               <tr>
                 <td colSpan={8}>
                   <div className="columns has-text-centered is-justify-content-center m-2">
-                    Displaying {skipPage[0]} - {skipPage[1]}{" "}
-                    cryptocurrencies sorted by volume
+                    Displaying {skipPage[0]} - {skipPage[1]} cryptocurrencies
+                    sorted by volume
                   </div>
                 </td>
               </tr>
