@@ -11,6 +11,9 @@ body {
 .is-custom-phone-height {
   height: 500px;
 }
+td {
+  padding: 0.45rem 0.7rem !important;
+}
 @media (max-width: 1600px) {
   .is-custom-phone-height {
     height: 450px;

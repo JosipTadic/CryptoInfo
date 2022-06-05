@@ -1,5 +1,18 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface IlabelProps {
   labelProp: string;
+}
+
+export interface ItableBodyProps{
+  value: string;
+  setValue?: Dispatch<SetStateAction<string>>;
+  skipPage: number[];
+}
+
+export interface ItableFooterProps{
+  skipPage: number[];
+  setSkipPage?:  Dispatch<SetStateAction<Array<number>>>
 }
 
 export type IntervalType = "1h" | "1d" | "7d" | "30d" | "90d" | "365d";
