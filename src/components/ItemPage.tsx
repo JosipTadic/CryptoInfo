@@ -192,7 +192,6 @@ const ItemPage: React.FC = () => {
                     ? "button is-info  m-1"
                     : "button is-info is-outlined  m-1"
                 }
-                onClick={() => setPeriodInterval("1d")}
                 disabled
               >
                 1 Day
@@ -216,7 +215,6 @@ const ItemPage: React.FC = () => {
                     ? "button is-info  m-1"
                     : "button is-info is-outlined  m-1"
                 }
-                onClick={() => setPeriodInterval("7d")}
                 disabled
               >
                 7 Days
@@ -240,7 +238,6 @@ const ItemPage: React.FC = () => {
                     ? "button is-info  m-1"
                     : "button is-info is-outlined  m-1"
                 }
-                onClick={() => setPeriodInterval("30d")}
                 disabled
               >
                 30 Days
@@ -264,7 +261,6 @@ const ItemPage: React.FC = () => {
                     ? "button is-info  m-1"
                     : "button is-info is-outlined  m-1"
                 }
-                onClick={() => setPeriodInterval("90d")}
                 disabled
               >
                 90 Days
@@ -295,7 +291,6 @@ const ItemPage: React.FC = () => {
                     ? "button is-info  m-1"
                     : "button is-info is-outlined  m-1"
                 }
-                onClick={() => getInterval(7)}
                 disabled
               >
                 Week
@@ -319,7 +314,6 @@ const ItemPage: React.FC = () => {
                     ? "button is-info  m-1"
                     : "button is-info is-outlined  m-1"
                 }
-                onClick={() => getInterval(30)}
                 disabled
               >
                 Month
@@ -343,7 +337,6 @@ const ItemPage: React.FC = () => {
                     ? "button is-info  m-1"
                     : "button is-info is-outlined  m-1"
                 }
-                onClick={() => getInterval(365)}
                 disabled
               >
                 Year
