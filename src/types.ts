@@ -4,6 +4,28 @@ export interface IlabelProps {
   labelProp: string;
 }
 
+interface IchartProps {
+  historicalData: IhistoricalData;
+  showLocalHigh: boolean;
+  showLocalLow: boolean;
+}
+
+export interface IlineChartPrice extends IchartProps {
+  priceLocalHigh: number;
+  priceLocalLow: number;
+}
+
+export interface IareaChartVolume extends IchartProps {
+  volumeLocalHigh: number;
+  volumeLocalLow: number;
+}
+
+export interface IcomboChart extends IlineChartPrice, IareaChartVolume {}
+
+export interface IitemPageHeader {
+  itemPageTitle: string | undefined;
+}
+
 export interface ItableBodyProps{
   value: string;
   setValue?: Dispatch<SetStateAction<string>>;

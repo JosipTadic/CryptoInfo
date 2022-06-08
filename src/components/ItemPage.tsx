@@ -1,24 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "bulma/css/bulma.min.css";
-import {
-  LineChart,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Line,
-  Area,
-  AreaChart,
-  Tooltip,
-  Legend,
-  ComposedChart,
-  ReferenceLine,
-  ResponsiveContainer,
-} from "recharts";
 import { useHistoricalData } from "../hooks/useHistoricalData";
 import CheckIconComponent from "./CheckIconComponent";
 import AdditionalInfoString from "./AdditionalInfoString";
 import { IcoinInfo, IntervalType } from "../types";
+import ItemPageHeader from "./ItemPageHeader";
+import AreaChartVolume from "./AreaChartVolume";
+import LineChartPrice from "./LineChartPrice";
+import ComboChart from "./ComboChart";
 
 const ItemPage: React.FC = () => {
   var defaultStartDate = new Date();
@@ -77,21 +67,7 @@ const ItemPage: React.FC = () => {
 
   return (
     <>
-      <section>
-        <div className="columns is-vcentered is-centered mt-5 is-flex">
-          <div className="column ml-2">
-            <Link to="/">
-              <button className="button is-info is-rounded is-outlined">
-                <p> &lt; Back</p>
-              </button>
-            </Link>
-          </div>
-          <div className="column has-text-centered">
-            <h1 className="is-size-3">{coinInfo?.name}</h1>
-          </div>
-          <div className="column"></div>
-        </div>
-      </section>
+      <ItemPageHeader itemPageTitle={coinInfo?.name} />
       <div className="has-text-centered is-align-content-stretch m-2">
         <hr />
         {coinInfo?.description ? (
@@ -107,183 +83,44 @@ const ItemPage: React.FC = () => {
         <div className="columns has-text-centered">
           <div className="column is-half is-custom-phone-height">
             <h3 className="mb-2 is-size-5">Volume:</h3>
-            <ResponsiveContainer width="95%" height="90%">
-              <AreaChart
-                data={historicalData}
-                margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
-              >
-                <defs>
-                  <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="1%" stopColor="#0b0073" stopOpacity={0.95} />
-                    <stop offset="95%" stopColor="#050253" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <XAxis dataKey="timestamp" interval={5} angle={0} dx={20} />
-                <YAxis />
-                <CartesianGrid stroke="lightgray" strokeDasharray={5} />
-                <Tooltip />
-                <Area
-                  type="monotone"
-                  activeDot={{ r: 3 }}
-                  dataKey="volume_24h"
-                  stroke="#8884d8"
-                  fillOpacity={1}
-                  fill="url(#colorUv)"
-                />
-                {showLocalHigh ? (
-                  <ReferenceLine
-                    y={volumeLocalHigh}
-                    label={volumeLocalHigh}
-                    stroke="red"
-                    strokeDasharray={9}
-                    ifOverflow="extendDomain"
-                  />
-                ) : (
-                  ""
-                )}
-                {showLocalLow ? (
-                  <ReferenceLine
-                    y={volumeLocalLow}
-                    label={volumeLocalLow}
-                    stroke="red"
-                    strokeDasharray={9}
-                    ifOverflow="extendDomain"
-                  />
-                ) : (
-                  ""
-                )}
-              </AreaChart>
-            </ResponsiveContainer>
+            {historicalData && (
+              <AreaChartVolume
+                historicalData={historicalData}
+                showLocalHigh={showLocalHigh}
+                showLocalLow={showLocalLow}
+                volumeLocalHigh={volumeLocalHigh}
+                volumeLocalLow={volumeLocalLow}
+              />
+            )}
           </div>
           <div className="column is-half is-custom-phone-height">
             <h3 className="mb-2 is-size-5">Price:</h3>
-            <ResponsiveContainer width="95%" height="90%">
-              <LineChart
-                data={historicalData}
-                margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
-              >
-                <CartesianGrid stroke="lightgray" strokeDasharray={5} />
-                <XAxis dataKey="timestamp" />
-                <YAxis />
-                <Tooltip />
-                {showLocalHigh ? (
-                  <ReferenceLine
-                    y={priceLocalHigh}
-                    label={priceLocalHigh}
-                    stroke="red"
-                    strokeDasharray={9}
-                    ifOverflow="extendDomain"
-                  />
-                ) : (
-                  ""
-                )}
-                {showLocalLow ? (
-                  <ReferenceLine
-                    y={priceLocalLow}
-                    label={priceLocalLow}
-                    stroke="red"
-                    strokeDasharray={9}
-                    ifOverflow="extendDomain"
-                  />
-                ) : (
-                  ""
-                )}
-                <Line type="monotone" dataKey="price" stroke="#8884d8" />
-              </LineChart>
-            </ResponsiveContainer>
+            {historicalData && (
+              <LineChartPrice
+                historicalData={historicalData}
+                showLocalHigh={showLocalHigh}
+                showLocalLow={showLocalLow}
+                priceLocalHigh={priceLocalHigh}
+                priceLocalLow={priceLocalLow}
+              />
+            )}
           </div>
         </div>
       ) : (
         <div className="columns is-centered has-text-centered">
           <div className="column is-custom-phone-height">
             <h3 className="mb-5 is-size-4">Volume and Price:</h3>
-            <ResponsiveContainer width="97%" height="90%">
-              <ComposedChart
-                data={historicalData}
-                margin={{
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  left: 80,
-                }}
-              >
-                <defs>
-                  <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="1%" stopColor="#8884d8" stopOpacity={0.95} />
-                    <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid stroke="lightgray" strokeDasharray={5} />
-                <XAxis dataKey="timestamp" scale="band" />
-                <YAxis yAxisId="left" dataKey="volume_24h" />
-                {showLocalHigh ? (
-                  <ReferenceLine
-                    y={volumeLocalHigh}
-                    yAxisId="left"
-                    label="Max volume"
-                    stroke="red"
-                    strokeDasharray={12}
-                    ifOverflow="extendDomain"
-                  />
-                ) : (
-                  ""
-                )}
-                {showLocalLow ? (
-                  <ReferenceLine
-                    y={volumeLocalLow}
-                    yAxisId="left"
-                    label="Min volume"
-                    stroke="red"
-                    strokeDasharray={12}
-                    ifOverflow="extendDomain"
-                  />
-                ) : (
-                  ""
-                )}
-                <YAxis yAxisId="right" dataKey="price" orientation="right" />
-                {showLocalHigh ? (
-                  <ReferenceLine
-                    y={priceLocalHigh}
-                    yAxisId="right"
-                    label="Max price"
-                    stroke="red"
-                    strokeDasharray={12}
-                    ifOverflow="extendDomain"
-                  />
-                ) : (
-                  ""
-                )}
-                {showLocalLow ? (
-                  <ReferenceLine
-                    y={priceLocalLow}
-                    yAxisId="right"
-                    label="Min price"
-                    stroke="red"
-                    strokeDasharray={12}
-                    ifOverflow="extendDomain"
-                  />
-                ) : (
-                  ""
-                )}
-                <Tooltip />
-                <Legend />
-                <Area
-                  yAxisId="left"
-                  type="monotone"
-                  activeDot={{ r: 2 }}
-                  dataKey="volume_24h"
-                  stroke="#0000ea"
-                  fillOpacity={1}
-                  fill="url(#colorPv)"
-                />
-                <Line
-                  yAxisId="right"
-                  type="monotone"
-                  dataKey="price"
-                  stroke="#060040"
-                />
-              </ComposedChart>
-            </ResponsiveContainer>
+            {historicalData && (
+              <ComboChart
+                historicalData={historicalData}
+                showLocalHigh={showLocalHigh}
+                showLocalLow={showLocalLow}
+                volumeLocalHigh={volumeLocalHigh}
+                volumeLocalLow={volumeLocalLow}
+                priceLocalHigh={priceLocalHigh}
+                priceLocalLow={priceLocalLow}
+              />
+            )}
           </div>
         </div>
       )}
@@ -337,30 +174,6 @@ const ItemPage: React.FC = () => {
             <h3 className="has-text-centered m-2 is-size-5">Intervals:</h3>
           </div>
           <div className="">
-            {/*fromInterval === 1 || fromInterval === 7 ? (
-              <button
-                className={
-                  interval === "1h"
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                onClick={() => setPeriodInterval("1h")}
-              >
-                1 Hour
-              </button>
-            ) : (
-              <button
-                className={
-                  interval === "1h"
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                onClick={() => setPeriodInterval("1h")}
-                disabled
-              >
-                1 Hour
-              </button>
-              )*/}
             {(fromInterval < 35 && fromInterval > 2) || fromInterval === 0 ? (
               <button
                 className={
@@ -464,30 +277,6 @@ const ItemPage: React.FC = () => {
             <h3 className="has-text-centered m-2 is-size-5">Date from:</h3>
           </div>
           <div className="">
-            {/*interval === "1h" ? (
-              <button
-                className={
-                  fromInterval === 1
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                onClick={() => getInterval(1)}
-              >
-                Day
-              </button>
-            ) : (
-              <button
-                className={
-                  fromInterval === 1
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                onClick={() => getInterval(1)}
-                disabled
-              >
-                Day
-              </button>
-            )*/}
             {interval === "1h" || interval === "1d" ? (
               <button
                 className={
@@ -598,83 +387,3 @@ const ItemPage: React.FC = () => {
 };
 
 export default ItemPage;
-
-/*
-<div className="columns is-centered m-0">
-      <h1>{id?.split("-")[1].toUpperCase()}</h1>
-</div>
-
-<ul>
-        {historicalData.map(({ ...historicalData }: IhistoricalData) => (
-          <li key={historicalData.timestamp as string}>
-            {historicalData.price}
-          </li>
-        ))}
-      </ul>
-*/
-/*
-<div className="columns has-text-centered">
-          <div className="column is-half">
-            <div>
-              <h2>Volume:</h2>
-            </div>
-            <div className="">
-              <div>
-                <AreaChart
-                  width={550}
-                  height={300}
-                  data={historicalData}
-                  margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
-                >
-                  <defs>
-                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="1%" stopColor="#8884d8" stopOpacity={0.95} />
-                      <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <XAxis dataKey="timestamp" interval={5} angle={0} dx={20} />
-                  <YAxis />
-                  <CartesianGrid stroke="lightgray" strokeDasharray={5}/>
-                  <Tooltip />
-                  <Area
-                    type="monotone"
-                    activeDot={{ r: 3 }}
-                    dataKey="volume_24h"
-                    stroke="#8884d8"
-                    fillOpacity={1}
-                    fill="url(#colorUv)"
-                  />
-                  {showLocalHigh ? <ReferenceLine y={0} label="Max volume" stroke="red" ifOverflow="extendDomain"/> : ""}
-                </AreaChart>
-              </div>
-            </div>
-            <div className="column is-half">
-              <div>
-                <h2>Price:</h2>
-              </div>
-              <div className="">
-                <LineChart
-                  width={550}
-                  height={300}
-                  data={historicalData}
-                  margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
-                >
-                  <CartesianGrid stroke="lightgray" strokeDasharray={5}/>
-                  <XAxis dataKey="timestamp" />
-                  <YAxis />
-                  <Tooltip />
-                  {showLocalHigh ? <ReferenceLine y={0} label="Max price" stroke="red" ifOverflow="extendDomain"/> : ""}
-                  <Line type="monotone" dataKey="price" stroke="#8884d8" />
-                </LineChart>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <button
-              className="button is-info   m-1"
-              onClick={fromStart}
-            >
-              From start
-            </button>
-*/
