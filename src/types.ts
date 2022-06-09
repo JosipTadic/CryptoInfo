@@ -22,11 +22,18 @@ export interface IareaChartVolume extends IchartProps {
 
 export interface IcomboChart extends IlineChartPrice, IareaChartVolume {}
 
-export interface IintervalButton {
+interface Iinterval {
   interval: string;
   setPeriodInterval?: (value: React.SetStateAction<IntervalType>) => void;
+}
+
+export interface IintervalButton extends Iinterval {
   buttonText: string;
   amountOfDays: string;
+}
+
+export interface IintervalButtonGroup  extends Iinterval {
+  fromInterval: number;
 }
 
 export interface IitemPageHeader {

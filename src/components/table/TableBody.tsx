@@ -11,11 +11,7 @@ const TableBody: React.FC<ItableBodyProps> = ({skipPage, value}) => {
   }, []);
 
   const checkIfNegative = (x: number) => {
-    if (x < 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return x > 0;
   };
 
   return (

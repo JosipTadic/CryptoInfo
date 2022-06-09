@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "bulma/css/bulma.min.css";
 import { useHistoricalData } from "../hooks/useHistoricalData";
-import CheckIconComponent from "./CheckIconComponent";
-import AdditionalInfoString from "./AdditionalInfoString";
 import { IcoinInfo, IntervalType } from "../types";
 import ItemPageHeader from "./ItemPageHeader";
 import AreaChartVolume from "./AreaChartVolume";
 import LineChartPrice from "./LineChartPrice";
 import ComboChart from "./ComboChart";
-import IntervalButton from "./IntervalButton";
+import IntervalButtonGroup from "./IntervalButtonGroup";
+import CheckIconComponent from "./CheckIconComponent";
+import AdditionalInfoString from "./AdditionalInfoString";
 
 const ItemPage: React.FC = () => {
   var defaultStartDate = new Date();
@@ -175,64 +175,7 @@ const ItemPage: React.FC = () => {
           <div className="">
             <h3 className="has-text-centered m-2 is-size-5">Intervals:</h3>
           </div>
-          <div className="">
-            {(fromInterval < 35 && fromInterval > 2) || fromInterval === 0 ? (
-              <IntervalButton
-                interval={interval}
-                amountOfDays={"1d"}
-                buttonText={"1 Day"}
-                setPeriodInterval={() => setPeriodInterval("1d")}
-              />
-            ) : (
-              <IntervalButton
-                interval={interval}
-                amountOfDays={"1d"}
-                buttonText={"1 Day"}
-              />
-            )}
-            {fromInterval > 7 || fromInterval === 0 ? (
-              <IntervalButton
-                interval={interval}
-                amountOfDays={"7d"}
-                buttonText={"7 Day"}
-                setPeriodInterval={() => setPeriodInterval("7d")}
-              />
-            ) : (
-              <IntervalButton
-                interval={interval}
-                amountOfDays={"7d"}
-                buttonText={"7 Day"}
-              />
-            )}
-            {fromInterval > 30 || fromInterval === 0 ? (
-              <IntervalButton
-                interval={interval}
-                amountOfDays={"30d"}
-                buttonText={"30 Day"}
-                setPeriodInterval={() => setPeriodInterval("30d")}
-              />
-            ) : (
-              <IntervalButton
-                interval={interval}
-                amountOfDays={"30d"}
-                buttonText={"30 Day"}
-              />
-            )}
-            {fromInterval > 90 ? (
-              <IntervalButton
-                interval={interval}
-                amountOfDays={"90d"}
-                buttonText={"90 Day"}
-                setPeriodInterval={() => setPeriodInterval("90d")}
-              />
-            ) : (
-              <IntervalButton
-                interval={interval}
-                amountOfDays={"90d"}
-                buttonText={"90 Day"}
-              />
-            )}
-          </div>
+          <IntervalButtonGroup interval={interval} fromInterval={fromInterval} setPeriodInterval={setPeriodInterval} />
         </div>
         <div className="column is-half is centered">
           <div>
