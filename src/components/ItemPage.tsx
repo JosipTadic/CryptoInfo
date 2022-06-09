@@ -9,6 +9,7 @@ import ItemPageHeader from "./ItemPageHeader";
 import AreaChartVolume from "./AreaChartVolume";
 import LineChartPrice from "./LineChartPrice";
 import ComboChart from "./ComboChart";
+import IntervalButton from "./IntervalButton";
 
 const ItemPage: React.FC = () => {
   var defaultStartDate = new Date();
@@ -27,10 +28,10 @@ const ItemPage: React.FC = () => {
   let { id } = useParams();
 
   const [coinInfo, setCoinInfo] = useState<IcoinInfo>();
+
   useEffect(() => {
     const url = "https://api.coinpaprika.com/v1/coins/" + id;
-    var headers = {};
-
+    let headers = {};
     fetch(url, {
       method: "GET",
       mode: "cors",
@@ -47,6 +48,7 @@ const ItemPage: React.FC = () => {
     priceLocalLow,
     volumeLocalLow,
   } = useHistoricalData(id, startDate!, interval);
+
   const handleIsTwoCharts = (e: React.ChangeEvent<HTMLInputElement>) => {
     setShowTwoCharts(e.target.checked);
   };
@@ -59,8 +61,8 @@ const ItemPage: React.FC = () => {
 
   const getInterval = (interval: number) => {
     setFromPeriodInterval(interval);
-    var ourDate = new Date();
-    var pastDate = ourDate.getDate() - interval;
+    let ourDate = new Date();
+    let pastDate = ourDate.getDate() - interval;
     ourDate.setDate(pastDate);
     setStartDate(ourDate.toISOString());
   };
@@ -175,96 +177,60 @@ const ItemPage: React.FC = () => {
           </div>
           <div className="">
             {(fromInterval < 35 && fromInterval > 2) || fromInterval === 0 ? (
-              <button
-                className={
-                  interval === "1d"
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                onClick={() => setPeriodInterval("1d")}
-              >
-                1 Day
-              </button>
+              <IntervalButton
+                interval={interval}
+                amountOfDays={"1d"}
+                buttonText={"1 Day"}
+                setPeriodInterval={() => setPeriodInterval("1d")}
+              />
             ) : (
-              <button
-                className={
-                  interval === "1d"
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                disabled
-              >
-                1 Day
-              </button>
+              <IntervalButton
+                interval={interval}
+                amountOfDays={"1d"}
+                buttonText={"1 Day"}
+              />
             )}
             {fromInterval > 7 || fromInterval === 0 ? (
-              <button
-                className={
-                  interval === "7d"
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                onClick={() => setPeriodInterval("7d")}
-              >
-                7 Days
-              </button>
+              <IntervalButton
+                interval={interval}
+                amountOfDays={"7d"}
+                buttonText={"7 Day"}
+                setPeriodInterval={() => setPeriodInterval("7d")}
+              />
             ) : (
-              <button
-                className={
-                  interval === "7d"
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                disabled
-              >
-                7 Days
-              </button>
+              <IntervalButton
+                interval={interval}
+                amountOfDays={"7d"}
+                buttonText={"7 Day"}
+              />
             )}
             {fromInterval > 30 || fromInterval === 0 ? (
-              <button
-                className={
-                  interval === "30d"
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                onClick={() => setPeriodInterval("30d")}
-              >
-                30 Days
-              </button>
+              <IntervalButton
+                interval={interval}
+                amountOfDays={"30d"}
+                buttonText={"30 Day"}
+                setPeriodInterval={() => setPeriodInterval("30d")}
+              />
             ) : (
-              <button
-                className={
-                  interval === "30d"
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                disabled
-              >
-                30 Days
-              </button>
+              <IntervalButton
+                interval={interval}
+                amountOfDays={"30d"}
+                buttonText={"30 Day"}
+              />
             )}
             {fromInterval > 90 ? (
-              <button
-                className={
-                  interval === "90d"
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                onClick={() => setPeriodInterval("90d")}
-              >
-                90 Days
-              </button>
+              <IntervalButton
+                interval={interval}
+                amountOfDays={"90d"}
+                buttonText={"90 Day"}
+                setPeriodInterval={() => setPeriodInterval("90d")}
+              />
             ) : (
-              <button
-                className={
-                  interval === "90d"
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                disabled
-              >
-                90 Days
-              </button>
+              <IntervalButton
+                interval={interval}
+                amountOfDays={"90d"}
+                buttonText={"90 Day"}
+              />
             )}
           </div>
         </div>

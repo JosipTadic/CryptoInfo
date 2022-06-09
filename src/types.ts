@@ -22,6 +22,13 @@ export interface IareaChartVolume extends IchartProps {
 
 export interface IcomboChart extends IlineChartPrice, IareaChartVolume {}
 
+export interface IintervalButton {
+  interval: string;
+  setPeriodInterval?: (value: React.SetStateAction<IntervalType>) => void;
+  buttonText: string;
+  amountOfDays: string;
+}
+
 export interface IitemPageHeader {
   itemPageTitle: string | undefined;
 }
