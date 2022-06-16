@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "bulma/css/bulma.min.css";
 import { IitemPageHeader } from "../types";
 
-const ItemPageHeader: React.FC<IitemPageHeader> = ({itemPageTitle}) => {
+const ItemPageHeader: React.FC<IitemPageHeader> = ({ itemPageTitle }) => {
   return (
     <>
       <section>
@@ -24,4 +24,5 @@ const ItemPageHeader: React.FC<IitemPageHeader> = ({itemPageTitle}) => {
     </>
   );
 };
+
 export default ItemPageHeader;

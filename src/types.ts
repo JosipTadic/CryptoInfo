@@ -4,6 +4,22 @@ export interface IlabelProps {
   labelProp: string;
 }
 
+export interface IcheckBoxProps {
+  labelText: string;
+  name: string;
+  isChecked: boolean;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface IcheckBoxGroupProps {
+  showTwoCharts: boolean;
+  showLocalHigh: boolean;
+  showLocalLow: boolean;
+  handleIsTwoCharts: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleShowLocalHigh: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleShowLocalLow: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
 interface IchartProps {
   historicalData: IhistoricalData;
   showLocalHigh: boolean;
@@ -25,6 +41,16 @@ export interface IcomboChart extends IlineChartPrice, IareaChartVolume {}
 interface Iinterval {
   interval: string;
   setPeriodInterval?: (value: React.SetStateAction<IntervalType>) => void;
+  getInterval?: (interval: number) => void;
+}
+
+export interface IdateFromButton extends Iinterval {
+  buttonText: string;
+  amountOfDays: string;
+}
+
+export interface IdateFromButtonGroup  extends Iinterval {
+  fromInterval: string;
 }
 
 export interface IintervalButton extends Iinterval {

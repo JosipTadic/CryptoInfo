@@ -10,6 +10,8 @@ import ComboChart from "./ComboChart";
 import IntervalButtonGroup from "./IntervalButtonGroup";
 import CheckIconComponent from "./CheckIconComponent";
 import AdditionalInfoString from "./AdditionalInfoString";
+import CheckboxGroup from "./CheckboxGroup";
+import DateFromButtonGroup from "./DateFromButtonGroup";
 
 const ItemPage: React.FC = () => {
   var defaultStartDate = new Date();
@@ -132,125 +134,35 @@ const ItemPage: React.FC = () => {
           <h3 className="has-text-centered m-2 is-size-4">Chart options:</h3>
         </div>
       </div>
-      <div className="has-text-centered columns">
-        <div className="m-1 column"></div>
-        <div className="m-1 column is-size-5">
-          <input
-            type="checkbox"
-            id="showTwoCharts"
-            name="showTwoCharts"
-            value="showTwoCharts"
-            checked={showTwoCharts}
-            onChange={handleIsTwoCharts}
-          />
-          <label htmlFor="showTwoCharts"> Separate price and volume</label>
-        </div>
-
-        <div className="m-1 column is-size-5">
-          <input
-            type="checkbox"
-            id="showLocalHigh"
-            name="showLocalHigh"
-            value="showLocalHigh"
-            checked={showLocalHigh}
-            onChange={handleShowLocalHigh}
-          />
-          <label htmlFor="showLocalHigh"> Show highest value</label>
-        </div>
-        <div className="m-1 column is-size-5">
-          <input
-            type="checkbox"
-            id="showLocalLow"
-            name="showLocalLow"
-            value="showLocalLow"
-            checked={showLocalLow}
-            onChange={handleShowLocalLow}
-          />
-          <label htmlFor="showLocalLow"> Show lowest value</label>
-        </div>
-        <div className="m-1 column"></div>
-      </div>
+      <CheckboxGroup
+        showTwoCharts={showTwoCharts}
+        handleIsTwoCharts={handleIsTwoCharts}
+        showLocalHigh={showLocalHigh}
+        handleShowLocalHigh={handleShowLocalHigh}
+        showLocalLow={showLocalLow}
+        handleShowLocalLow={handleShowLocalLow}
+      />
       <div className="columns is-vcentered is-centered has-text-centered">
         <div className="column is-half is-vcentered is-centered">
           <div className="">
             <h3 className="has-text-centered m-2 is-size-5">Intervals:</h3>
           </div>
-          <IntervalButtonGroup interval={interval} fromInterval={fromInterval} setPeriodInterval={setPeriodInterval} />
+          <IntervalButtonGroup
+            interval={interval}
+            fromInterval={fromInterval}
+            setPeriodInterval={setPeriodInterval}
+          />
         </div>
         <div className="column is-half is centered">
           <div>
             <h3 className="has-text-centered m-2 is-size-5">Date from:</h3>
           </div>
           <div className="">
-            {interval === "1h" || interval === "1d" ? (
-              <button
-                className={
-                  fromInterval === 7
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                onClick={() => getInterval(7)}
-              >
-                Week
-              </button>
-            ) : (
-              <button
-                className={
-                  fromInterval === 7
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                disabled
-              >
-                Week
-              </button>
-            )}
-            {interval === "1d" || interval === "7d" ? (
-              <button
-                className={
-                  fromInterval === 30
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                onClick={() => getInterval(30)}
-              >
-                Month
-              </button>
-            ) : (
-              <button
-                className={
-                  fromInterval === 30
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                disabled
-              >
-                Month
-              </button>
-            )}
-            {interval === "7d" || interval === "30d" || interval === "90d" ? (
-              <button
-                className={
-                  fromInterval === 365
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                onClick={() => getInterval(365)}
-              >
-                Year
-              </button>
-            ) : (
-              <button
-                className={
-                  fromInterval === 365
-                    ? "button is-info  m-1"
-                    : "button is-info is-outlined  m-1"
-                }
-                disabled
-              >
-                Year
-              </button>
-            )}
+            <DateFromButtonGroup
+              interval={interval}
+              fromInterval={fromInterval as unknown as string}
+              getInterval={getInterval}
+            />
           </div>
         </div>
       </div>
