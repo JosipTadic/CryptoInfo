@@ -49,7 +49,7 @@ export interface IdateFromButton extends Iinterval {
   amountOfDays: string;
 }
 
-export interface IdateFromButtonGroup  extends Iinterval {
+export interface IdateFromButtonGroup extends Iinterval {
   fromInterval: string;
 }
 
@@ -58,7 +58,7 @@ export interface IintervalButton extends Iinterval {
   amountOfDays: string;
 }
 
-export interface IintervalButtonGroup  extends Iinterval {
+export interface IintervalButtonGroup extends Iinterval {
   fromInterval: number;
 }
 
@@ -66,15 +66,15 @@ export interface IitemPageHeader {
   itemPageTitle: string | undefined;
 }
 
-export interface ItableBodyProps{
+export interface ItableBodyProps {
   value: string;
   setValue?: Dispatch<SetStateAction<string>>;
   skipPage: number[];
 }
 
-export interface ItableFooterProps{
+export interface ItableFooterProps {
   skipPage: number[];
-  setSkipPage?:  Dispatch<SetStateAction<Array<number>>>
+  setSkipPage?: Dispatch<SetStateAction<Array<number>>>;
 }
 
 export type IntervalType = "1h" | "1d" | "7d" | "30d" | "90d" | "365d";

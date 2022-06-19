@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "bulma/css/bulma.min.css";
 import { useHistoricalData } from "../hooks/useHistoricalData";
@@ -51,23 +51,25 @@ const ItemPage: React.FC = () => {
     volumeLocalLow,
   } = useHistoricalData(id, startDate!, interval);
 
-  const handleIsTwoCharts = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleIsTwoCharts =  useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setShowTwoCharts(e.target.checked);
-  };
-  const handleShowLocalHigh = (e: React.ChangeEvent<HTMLInputElement>) => {
+  }, []);
+  const handleShowLocalHigh = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setShowLocalHigh(e.target.checked);
-  };
-  const handleShowLocalLow = (e: React.ChangeEvent<HTMLInputElement>) => {
+  }, []);
+  const handleShowLocalLow =  useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setShowLocalLow(e.target.checked);
-  };
+  }, []);
 
-  const getInterval = (interval: number) => {
+  const getInterval = useCallback((interval: number) => {
     setFromPeriodInterval(interval);
     let ourDate = new Date();
     let pastDate = ourDate.getDate() - interval;
     ourDate.setDate(pastDate);
     setStartDate(ourDate.toISOString());
-  };
+  }, []);
+
+  console.log(coinInfo?.name);
 
   return (
     <>
