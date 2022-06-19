@@ -4,6 +4,7 @@ import "bulma/css/bulma.min.css";
 import { IitemPageHeader } from "../types";
 
 const ItemPageHeader: React.FC<IitemPageHeader> = ({ itemPageTitle }) => {
+
   return (
     <section>
       <div className="columns is-vcentered is-centered mt-5 is-flex">
@@ -23,4 +24,4 @@ const ItemPageHeader: React.FC<IitemPageHeader> = ({ itemPageTitle }) => {
   );
 };
 
-export default ItemPageHeader;
+export default React.memo(ItemPageHeader);

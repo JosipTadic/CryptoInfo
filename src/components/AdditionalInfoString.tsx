@@ -57,4 +57,4 @@ const AdditionalInfoString: React.FC<IcoinInfoDataString> = ({
   );
 };
 
-export default AdditionalInfoString;
+export default React.memo(AdditionalInfoString);

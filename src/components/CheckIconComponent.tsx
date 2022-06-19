@@ -35,4 +35,4 @@ const CheckIconComponent: React.FC<IcoinInfoDataBoolean> = ({
   );
 };
 
-export default CheckIconComponent;
+export default React.memo(CheckIconComponent);

@@ -55,4 +55,4 @@ const DateFromButtonGroup: React.FC<IdateFromButtonGroup> = ({
   );
 };
 
-export default DateFromButtonGroup;
+export default React.memo(DateFromButtonGroup);

@@ -1,3 +1,4 @@
+import React from "react";
 import { IintervalButtonGroup } from "../types";
 import IntervalButton from "./IntervalButton";
 
@@ -65,4 +66,4 @@ const IntervalButtonGroup: React.FC<IintervalButtonGroup> = ({fromInterval, inte
   );
 };
 
-export default IntervalButtonGroup;
+export default React.memo(IntervalButtonGroup);
