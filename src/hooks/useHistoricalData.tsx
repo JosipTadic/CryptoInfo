@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { IhistoricalData } from "../types";
 
 export const useHistoricalData = (
@@ -26,11 +26,9 @@ export const useHistoricalData = (
       .then(setData);
   }, [id, interval, startDate]);
 
-  const prices = useMemo(() => historicalData?.map(function (historicalDataObject) {
+  const prices = historicalData?.map(function (historicalDataObject) {
     return historicalDataObject.price;
-  }), [historicalData]);
-
-  
+  });
   const priceLocalHigh = prices ? Math.max(...prices) : 0;
   const priceLocalLow = prices ? Math.min(...prices) : 0;
 
