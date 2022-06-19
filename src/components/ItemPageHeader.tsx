@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "bulma/css/bulma.min.css";
 import { IitemPageHeader } from "../types";
