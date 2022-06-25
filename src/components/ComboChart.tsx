@@ -22,6 +22,7 @@ const ComboChart: React.FC<IcomboChart> = ({
   priceLocalLow,
   volumeLocalHigh,
   volumeLocalLow,
+  getFormattedDate
 }) => {
   return (
     <>
@@ -42,7 +43,10 @@ const ComboChart: React.FC<IcomboChart> = ({
             </linearGradient>
           </defs>
           <CartesianGrid stroke="lightgray" strokeDasharray={5} />
-          <XAxis dataKey="timestamp" scale="band" />
+          <XAxis
+            dataKey="timestamp"
+            tickFormatter={(number) => getFormattedDate(number)}
+          />
           <YAxis
             yAxisId="left"
             dataKey="volume_24h"

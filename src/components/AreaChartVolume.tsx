@@ -18,6 +18,7 @@ const AreaChartVolume: React.FC<IareaChartVolume> = ({
   showLocalLow,
   volumeLocalHigh,
   volumeLocalLow,
+  getFormattedDate
 }) => {
   return (
     <>
@@ -32,7 +33,10 @@ const AreaChartVolume: React.FC<IareaChartVolume> = ({
               <stop offset="95%" stopColor="#050253" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="timestamp" interval={5} angle={0} dx={20} />
+          <XAxis
+            dataKey="timestamp"
+            tickFormatter={(number) => getFormattedDate(number)}
+          />
           <YAxis
             tickFormatter={(value) =>
               new Intl.NumberFormat("en", {

@@ -18,23 +18,8 @@ const LineChartPrice: React.FC<IlineChartPrice> = ({
   showLocalLow,
   priceLocalHigh,
   priceLocalLow,
+  getFormattedDate
 }) => {
-  const CustomTooltip: React.FC<{ active: any; payload: any; label: any }> = ({
-    active,
-    payload,
-    label,
-  }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="custom-tooltip">
-          <p className="label">{`${label} : ${payload[0].value}`}</p>
-          <p className="desc">Anything you want can be displayed here.</p>
-        </div>
-      );
-    }
-
-    return null;
-  };
 
   return (
     <>
@@ -44,7 +29,10 @@ const LineChartPrice: React.FC<IlineChartPrice> = ({
           margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
         >
           <CartesianGrid stroke="lightgray" strokeDasharray={5} />
-          <XAxis dataKey="timestamp" />
+          <XAxis
+            dataKey="timestamp"
+            tickFormatter={(number) => getFormattedDate(number)}
+          />
           <YAxis tickFormatter={(number) => number.toString() + "$"} />
           <Tooltip />
           {showLocalHigh ? (
@@ -70,15 +58,6 @@ const LineChartPrice: React.FC<IlineChartPrice> = ({
             ""
           )}
           <Line name="Price" type="monotone" dataKey="price" stroke="#8884d8" />
-          <Tooltip
-            content={
-              <CustomTooltip
-                active={undefined}
-                payload={undefined}
-                label={undefined}
-              />
-            }
-          />
         </LineChart>
       </ResponsiveContainer>
     </>

@@ -69,6 +69,15 @@ const ItemPage: React.FC = () => {
     setStartDate(ourDate.toISOString());
   };
 
+  function getFormattedDate(date: Date) {
+    const generatedDate = new Date(date);
+    const year = generatedDate.getFullYear();
+    const month = (1 + generatedDate.getMonth()).toString().padStart(2, "0");
+    const day = generatedDate.getDate().toString().padStart(2, "0");
+
+    return month + "/" + day + "/" + year;
+  }
+
   return (
     <>
       <ItemPageHeader itemPageTitle={coinInfo?.name} />
@@ -89,6 +98,7 @@ const ItemPage: React.FC = () => {
             <h3 className="mb-2 is-size-5">Volume:</h3>
             {historicalData && (
               <AreaChartVolume
+                getFormattedDate={getFormattedDate}
                 historicalData={historicalData}
                 showLocalHigh={showLocalHigh}
                 showLocalLow={showLocalLow}
@@ -101,6 +111,7 @@ const ItemPage: React.FC = () => {
             <h3 className="mb-2 is-size-5">Price:</h3>
             {historicalData && (
               <LineChartPrice
+                getFormattedDate={getFormattedDate}
                 historicalData={historicalData}
                 showLocalHigh={showLocalHigh}
                 showLocalLow={showLocalLow}
@@ -116,6 +127,7 @@ const ItemPage: React.FC = () => {
             <h3 className="mb-5 is-size-4">Volume and Price:</h3>
             {historicalData && (
               <ComboChart
+                getFormattedDate={getFormattedDate}
                 historicalData={historicalData}
                 showLocalHigh={showLocalHigh}
                 showLocalLow={showLocalLow}

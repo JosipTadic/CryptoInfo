@@ -24,6 +24,7 @@ interface IchartProps {
   historicalData: IhistoricalData;
   showLocalHigh: boolean;
   showLocalLow: boolean;
+  getFormattedDate(date: Date): string
 }
 
 export interface IlineChartPrice extends IchartProps {
