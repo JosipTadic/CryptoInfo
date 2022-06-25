@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "bulma/css/bulma.min.css";
 import { useHistoricalData } from "../hooks/useHistoricalData";
@@ -61,13 +61,13 @@ const ItemPage: React.FC = () => {
     setShowLocalLow(e.target.checked);
   };
 
-  const getInterval = useCallback(() => (interval: number) => {
+  const getInterval = (interval: number) => {
     setFromPeriodInterval(interval);
     let ourDate = new Date();
     let pastDate = ourDate.getDate() - interval;
     ourDate.setDate(pastDate);
     setStartDate(ourDate.toISOString());
-  }, []);
+  };
 
   return (
     <>
@@ -160,7 +160,7 @@ const ItemPage: React.FC = () => {
           <div className="">
             <DateFromButtonGroup
               interval={interval}
-              fromInterval={fromInterval as unknown as string}
+              fromInterval={String(fromInterval)}
               getInterval={getInterval}
             />
           </div>
