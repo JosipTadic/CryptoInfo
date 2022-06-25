@@ -33,7 +33,14 @@ const AreaChartVolume: React.FC<IareaChartVolume> = ({
             </linearGradient>
           </defs>
           <XAxis dataKey="timestamp" interval={5} angle={0} dx={20} />
-          <YAxis />
+          <YAxis
+            tickFormatter={(value) =>
+              new Intl.NumberFormat("en", {
+                notation: "compact",
+                compactDisplay: "short",
+              }).format(value)
+            }
+          />
           <CartesianGrid stroke="lightgray" strokeDasharray={5} />
           <Tooltip />
           <Area

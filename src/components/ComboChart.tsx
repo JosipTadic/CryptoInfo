@@ -43,7 +43,16 @@ const ComboChart: React.FC<IcomboChart> = ({
           </defs>
           <CartesianGrid stroke="lightgray" strokeDasharray={5} />
           <XAxis dataKey="timestamp" scale="band" />
-          <YAxis yAxisId="left" dataKey="volume_24h" />
+          <YAxis
+            yAxisId="left"
+            dataKey="volume_24h"
+            tickFormatter={(value) =>
+              new Intl.NumberFormat("en", {
+                notation: "compact",
+                compactDisplay: "short",
+              }).format(value)
+            }
+          />
           {showLocalHigh ? (
             <ReferenceLine
               y={volumeLocalHigh}
@@ -68,7 +77,12 @@ const ComboChart: React.FC<IcomboChart> = ({
           ) : (
             ""
           )}
-          <YAxis yAxisId="right" dataKey="price" orientation="right" />
+          <YAxis
+            yAxisId="right"
+            dataKey="price"
+            orientation="right"
+            tickFormatter={(number) => number.toString() + "$"}
+          />
           {showLocalHigh ? (
             <ReferenceLine
               y={priceLocalHigh}
