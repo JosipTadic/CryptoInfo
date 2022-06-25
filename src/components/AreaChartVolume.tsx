@@ -17,7 +17,7 @@ const AreaChartVolume: React.FC<IareaChartVolume> = ({
   showLocalHigh,
   showLocalLow,
   volumeLocalHigh,
-  volumeLocalLow
+  volumeLocalLow,
 }) => {
   return (
     <>
@@ -37,6 +37,7 @@ const AreaChartVolume: React.FC<IareaChartVolume> = ({
           <CartesianGrid stroke="lightgray" strokeDasharray={5} />
           <Tooltip />
           <Area
+            name="Volume"
             type="monotone"
             activeDot={{ r: 3 }}
             dataKey="volume_24h"

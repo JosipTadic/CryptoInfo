@@ -97,6 +97,7 @@ const ComboChart: React.FC<IcomboChart> = ({
           <Legend />
           <Area
             yAxisId="left"
+            name="Volume"
             type="monotone"
             activeDot={{ r: 2 }}
             dataKey="volume_24h"
@@ -105,6 +106,7 @@ const ComboChart: React.FC<IcomboChart> = ({
             fill="url(#colorPv)"
           />
           <Line
+            name="Price"
             yAxisId="right"
             type="monotone"
             dataKey="price"

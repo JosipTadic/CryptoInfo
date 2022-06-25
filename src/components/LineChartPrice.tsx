@@ -52,7 +52,7 @@ const LineChartPrice: React.FC<IlineChartPrice> = ({
           ) : (
             ""
           )}
-          <Line type="monotone" dataKey="price" stroke="#8884d8" />
+          <Line name="Price" type="monotone" dataKey="price" stroke="#8884d8" />
         </LineChart>
       </ResponsiveContainer>
     </>
