@@ -71,11 +71,10 @@ const ItemPage: React.FC = () => {
 
   function getFormattedDate(date: Date) {
     const generatedDate = new Date(date);
-    const year = generatedDate.getFullYear();
     const month = (1 + generatedDate.getMonth()).toString().padStart(2, "0");
     const day = generatedDate.getDate().toString().padStart(2, "0");
 
-    return month + "/" + day + "/" + year;
+    return day + "/" + month;
   }
 
   return (
