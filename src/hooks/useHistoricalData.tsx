@@ -15,7 +15,7 @@ export const useHistoricalData = (
       startDate +
       "&interval=" +
       interval;
-    var headers = {};
+    const headers = {};
 
     fetch(url, {
       method: "GET",

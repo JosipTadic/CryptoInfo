@@ -6,7 +6,7 @@ const RedCheckmark: FC<IlabelProps> = (labelProp) => {
   return (
     <div>
       <div className="columns m-1 is-flex-mobile">
-        <div className="column ml-6 is-size-5">
+        <div className="column ml-5 is-size-5">
           <p>{labelProp.labelProp}</p>
         </div>
         <div className="column  has-text-centered-mobile">

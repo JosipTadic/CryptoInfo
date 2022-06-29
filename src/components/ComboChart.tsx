@@ -22,18 +22,18 @@ const ComboChart: React.FC<IcomboChart> = ({
   priceLocalLow,
   volumeLocalHigh,
   volumeLocalLow,
-  getFormattedDate
+  getFormattedDate,
 }) => {
   return (
     <>
-      <ResponsiveContainer width="97%" height="90%">
+      <ResponsiveContainer width="99%" height="90%">
         <ComposedChart
           data={historicalData}
           margin={{
             top: 0,
             right: 0,
             bottom: 0,
-            left: 25,
+            left: 5,
           }}
         >
           <defs>
@@ -111,11 +111,18 @@ const ComboChart: React.FC<IcomboChart> = ({
           ) : (
             ""
           )}
-          <Tooltip labelFormatter={getFormattedDate}
+          <Tooltip
+            labelFormatter={getFormattedDate}
             formatter={(value: number) =>
               new Intl.NumberFormat("en").format(value) + "$"
-            }/>
-          <Legend />
+            }
+          />
+          <Legend
+            iconType={"circle"}
+            margin={{
+              top: 20,
+            }}
+          />
           <Area
             yAxisId="left"
             name="Volume"

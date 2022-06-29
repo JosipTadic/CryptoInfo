@@ -4,8 +4,10 @@
 body {
   width: 100%;
 }
+.columns {
+  margin: 0 !important;
+}
 .custom-table-container{
-  overflow-x: auto;
   max-width: 100%;
 }
 .is-custom-phone-height {
@@ -27,6 +29,5 @@ td {
 @media (max-width: 768px) {
   .is-custom-phone-height {
     height: 300px;
-    margin-left: -3.5em;
   }
 }

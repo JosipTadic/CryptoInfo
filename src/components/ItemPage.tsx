@@ -14,7 +14,7 @@ import CheckboxGroup from "./CheckboxGroup";
 import DateFromButtonGroup from "./DateFromButtonGroup";
 
 const ItemPage: React.FC = () => {
-  var defaultStartDate = new Date();
+  let defaultStartDate = new Date();
   defaultStartDate.setDate(-20);
   const [startDate, setStartDate] = useState<string | undefined>(
     defaultStartDate.toISOString()

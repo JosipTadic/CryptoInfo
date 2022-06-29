@@ -22,10 +22,10 @@ const LineChartPrice: React.FC<IlineChartPrice> = ({
 }) => {
   return (
     <>
-      <ResponsiveContainer width="95%" height="90%">
+      <ResponsiveContainer width="97%" height="90%">
         <LineChart
           data={historicalData}
-          margin={{ top: 0, right: 0, left: 25, bottom: 0 }}
+          margin={{ top: 0, right: 10, left: 0, bottom: 0 }}
         >
           <CartesianGrid stroke="lightgray" strokeDasharray={5} />
           <XAxis
