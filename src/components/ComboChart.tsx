@@ -33,7 +33,7 @@ const ComboChart: React.FC<IcomboChart> = ({
             top: 0,
             right: 0,
             bottom: 0,
-            left: 80,
+            left: 25,
           }}
         >
           <defs>
@@ -111,7 +111,10 @@ const ComboChart: React.FC<IcomboChart> = ({
           ) : (
             ""
           )}
-          <Tooltip />
+          <Tooltip labelFormatter={getFormattedDate}
+            formatter={(value: number) =>
+              new Intl.NumberFormat("en").format(value) + "$"
+            }/>
           <Legend />
           <Area
             yAxisId="left"

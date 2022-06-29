@@ -25,7 +25,7 @@ const AreaChartVolume: React.FC<IareaChartVolume> = ({
       <ResponsiveContainer width="95%" height="90%">
         <AreaChart
           data={historicalData}
-          margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
+          margin={{ top: 0, right: 0, left: 25, bottom: 0 }}
         >
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -46,7 +46,10 @@ const AreaChartVolume: React.FC<IareaChartVolume> = ({
             }
           />
           <CartesianGrid stroke="lightgray" strokeDasharray={5} />
-          <Tooltip />
+          <Tooltip labelFormatter={getFormattedDate}
+            formatter={(value: number) =>
+              new Intl.NumberFormat("en").format(value) + "$"
+            }/>
           <Area
             name="Volume"
             type="monotone"

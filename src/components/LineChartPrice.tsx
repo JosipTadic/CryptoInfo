@@ -18,15 +18,14 @@ const LineChartPrice: React.FC<IlineChartPrice> = ({
   showLocalLow,
   priceLocalHigh,
   priceLocalLow,
-  getFormattedDate
+  getFormattedDate,
 }) => {
-
   return (
     <>
       <ResponsiveContainer width="95%" height="90%">
         <LineChart
           data={historicalData}
-          margin={{ top: 0, right: 0, left: 80, bottom: 0 }}
+          margin={{ top: 0, right: 0, left: 25, bottom: 0 }}
         >
           <CartesianGrid stroke="lightgray" strokeDasharray={5} />
           <XAxis
@@ -34,7 +33,12 @@ const LineChartPrice: React.FC<IlineChartPrice> = ({
             tickFormatter={(number) => getFormattedDate(number)}
           />
           <YAxis tickFormatter={(number) => number.toString() + "$"} />
-          <Tooltip />
+          <Tooltip
+            labelFormatter={getFormattedDate}
+            formatter={(value: number) =>
+              new Intl.NumberFormat("en").format(value) + "$"
+            }
+          />
           {showLocalHigh ? (
             <ReferenceLine
               y={priceLocalHigh}
