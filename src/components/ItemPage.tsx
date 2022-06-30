@@ -12,6 +12,7 @@ import CheckIconComponent from "./CheckIconComponent";
 import AdditionalInfoString from "./AdditionalInfoString";
 import CheckboxGroup from "./CheckboxGroup";
 import DateFromButtonGroup from "./DateFromButtonGroup";
+import Loading from "./Loading";
 
 const ItemPage: React.FC = () => {
   let defaultStartDate = new Date();
@@ -82,13 +83,11 @@ const ItemPage: React.FC = () => {
       <ItemPageHeader itemPageTitle={coinInfo?.name} />
       <div className="has-text-centered is-align-content-stretch m-2">
         <hr />
-        {coinInfo?.description ? (
+        {coinInfo?.description && (
           <>
             <h2 className="is-size-5">{coinInfo.description} </h2>
             <hr />
           </>
-        ) : (
-          ""
         )}
       </div>
       {showTwoCharts ? (
@@ -124,7 +123,7 @@ const ItemPage: React.FC = () => {
         <div className="columns is-centered has-text-centered">
           <div className="column is-custom-phone-height">
             <h3 className="mb-5 is-size-4">Volume and Price:</h3>
-            {historicalData && (
+            {historicalData ? (
               <ComboChart
                 getFormattedDate={getFormattedDate}
                 historicalData={historicalData}
@@ -135,7 +134,7 @@ const ItemPage: React.FC = () => {
                 priceLocalHigh={priceLocalHigh}
                 priceLocalLow={priceLocalLow}
               />
-            )}
+            ): <Loading />}
           </div>
         </div>
       )}

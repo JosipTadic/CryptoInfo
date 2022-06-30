@@ -16,7 +16,6 @@ export const useHistoricalData = (
       "&interval=" +
       interval;
     const headers = {};
-
     fetch(url, {
       method: "GET",
       mode: "cors",
