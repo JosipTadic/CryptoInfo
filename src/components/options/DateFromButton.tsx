@@ -1,6 +1,7 @@
 import React from "react";
 import "bulma/css/bulma.min.css";
 import { IdateFromButton } from "../../types";
+import { motion } from "framer-motion";
 
 const DateFromButton: React.FC<IdateFromButton> = ({
   interval,
@@ -11,7 +12,9 @@ const DateFromButton: React.FC<IdateFromButton> = ({
   return (
     <>
       {getInterval ? (
-        <button
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
           className={
             interval === amountOfDays
               ? "button is-info  m-1"
@@ -20,9 +23,11 @@ const DateFromButton: React.FC<IdateFromButton> = ({
           onClick={() => getInterval(amountOfDays as unknown as number)}
         >
           {buttonText}
-        </button>
+        </motion.button>
       ) : (
-        <button
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
           className={
             interval === amountOfDays
               ? "button is-info  m-1"
@@ -31,7 +36,7 @@ const DateFromButton: React.FC<IdateFromButton> = ({
           disabled
         >
           {buttonText}
-        </button>
+        </motion.button>
       )}
     </>
   );
