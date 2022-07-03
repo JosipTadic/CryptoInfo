@@ -4,6 +4,10 @@ Link: https://cryptoinfo-iota.vercel.app/
 
 Data is fetched from: https://coinpaprika.com/ API, since it uses free options sometimes app gets denied for too many requests.
 
+## Technologies:
+
+React, Typescript, Recharts, Bulma
+
 ## Features
 
 Fully responsive, interactive website: 
@@ -12,7 +16,7 @@ Fully responsive, interactive website:
 
 Name and symbol filter
 
-Info about price changes
+Info about price changes in last 15 minutes, day, month, etc (depending on the screen size)
 
 ### Screenshots:
 
@@ -32,9 +36,9 @@ Chart can be separated to show prices and volumes individually
 
 Heighest and lowest lines with values can be shown
 
-Interval and start dates can be changed, not every combination is allowed
+Interval and start dates can be changed, not every combination is allowed(can't show 30 day interval in last 7 days for example)
 
-Additional info is shown below
+Additional info is shown below charts
 
 
 ### Screenshots:
