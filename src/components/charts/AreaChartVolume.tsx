@@ -10,7 +10,7 @@ import {
   ReferenceLine,
   ResponsiveContainer,
 } from "recharts";
-import { IareaChartVolume } from "../types";
+import { IareaChartVolume } from "../../types";
 
 const AreaChartVolume: React.FC<IareaChartVolume> = ({
   historicalData,

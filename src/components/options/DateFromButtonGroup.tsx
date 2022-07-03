@@ -1,5 +1,5 @@
 import React from "react";
-import { IdateFromButtonGroup } from "../types";
+import { IdateFromButtonGroup } from "../../types";
 import DateFromButton from "./DateFromButton";
 
 const DateFromButtonGroup: React.FC<IdateFromButtonGroup> = ({

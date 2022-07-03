@@ -10,7 +10,7 @@ import {
   ReferenceLine,
   ResponsiveContainer,
 } from "recharts";
-import { IlineChartPrice } from "../types";
+import { IlineChartPrice } from "../../types";
 
 const LineChartPrice: React.FC<IlineChartPrice> = ({
   historicalData,

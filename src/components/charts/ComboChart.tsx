@@ -12,7 +12,7 @@ import {
   ReferenceLine,
   ResponsiveContainer,
 } from "recharts";
-import { IcomboChart } from "../types";
+import { IcomboChart } from "../../types";
 
 const ComboChart: React.FC<IcomboChart> = ({
   historicalData,

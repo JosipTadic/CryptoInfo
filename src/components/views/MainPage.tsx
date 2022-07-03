@@ -1,6 +1,6 @@
 import React from "react";
 import "bulma/css/bulma.min.css";
-import TableWrapper from "./table/TableWrapper";
+import TableWrapper from "../table/TableWrapper";
 
 const MainPage: React.FC = () => {
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { IintervalButtonGroup } from "../types";
+import { IintervalButtonGroup } from "../../types";
 import IntervalButton from "./IntervalButton";
 
 const IntervalButtonGroup: React.FC<IintervalButtonGroup> = ({fromInterval, interval, setPeriodInterval}) => {

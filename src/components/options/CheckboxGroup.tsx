@@ -1,6 +1,6 @@
 import React from "react";
 import "bulma/css/bulma.min.css";
-import { IcheckBoxGroupProps } from "../types";
+import { IcheckBoxGroupProps } from "../../types";
 import Checkbox from "./Checkbox";
 
 const CheckboxGroup: React.FC<IcheckBoxGroupProps> = ({

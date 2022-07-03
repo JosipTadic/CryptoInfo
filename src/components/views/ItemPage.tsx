@@ -1,18 +1,18 @@
+import "bulma/css/bulma.min.css";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "bulma/css/bulma.min.css";
-import { useHistoricalData } from "../hooks/useHistoricalData";
-import { IcoinInfo, IntervalType } from "../types";
-import ItemPageHeader from "./ItemPageHeader";
-import AreaChartVolume from "./AreaChartVolume";
-import LineChartPrice from "./LineChartPrice";
-import ComboChart from "./ComboChart";
-import IntervalButtonGroup from "./IntervalButtonGroup";
-import CheckIconComponent from "./CheckIconComponent";
-import AdditionalInfoString from "./AdditionalInfoString";
-import CheckboxGroup from "./CheckboxGroup";
-import DateFromButtonGroup from "./DateFromButtonGroup";
-import Loading from "./Loading";
+import { useHistoricalData } from "../../hooks/useHistoricalData";
+import { IcoinInfo, IntervalType } from "../../types";
+import AdditionalInfoString from "../AdditionalInfoString";
+import AreaChartVolume from "../charts/AreaChartVolume";
+import ComboChart from "../charts/ComboChart";
+import LineChartPrice from "../charts/LineChartPrice";
+import CheckIconComponent from "../CheckIconComponent";
+import ItemPageHeader from "../ItemPageHeader";
+import Loading from "../Loading";
+import CheckboxGroup from "../options/CheckboxGroup";
+import DateFromButtonGroup from "../options/DateFromButtonGroup";
+import IntervalButtonGroup from "../options/IntervalButtonGroup";
 
 const ItemPage: React.FC = () => {
   let defaultStartDate = new Date();

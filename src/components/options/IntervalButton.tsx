@@ -1,23 +1,23 @@
 import React from "react";
 import "bulma/css/bulma.min.css";
-import { IdateFromButton } from "../types";
+import { IintervalButton, IntervalType } from "../../types";
 
-const DateFromButton: React.FC<IdateFromButton> = ({
+const IntervalButton: React.FC<IintervalButton> = ({
   interval,
-  getInterval,
+  setPeriodInterval,
   amountOfDays,
   buttonText,
 }) => {
   return (
     <>
-      {getInterval ? (
+      {setPeriodInterval ? (
         <button
           className={
             interval === amountOfDays
               ? "button is-info  m-1"
               : "button is-info is-outlined  m-1"
           }
-          onClick={() => getInterval(amountOfDays as unknown as number)}
+          onClick={() => setPeriodInterval(amountOfDays as IntervalType)}
         >
           {buttonText}
         </button>
@@ -37,4 +37,4 @@ const DateFromButton: React.FC<IdateFromButton> = ({
   );
 };
 
-export default DateFromButton;
+export default IntervalButton;

@@ -1,8 +1,8 @@
 import "bulma/css/bulma.min.css";
-import "./App.css";
-import ItemPage from "./components/ItemPage";
-import MainPage from "./components/MainPage";
 import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import ItemPage from "./components/views/ItemPage";
+import MainPage from "./components/views/MainPage";
 
 function App() {
   return (
