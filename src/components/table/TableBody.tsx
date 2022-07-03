@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "bulma/css/bulma.min.css";
 import { Idata, ItableBodyProps } from "../../types";
 import Loading from "../Loading";
+import { motion } from "framer-motion";
 
 const TableBody: React.FC<ItableBodyProps> = ({ skipPage, value }) => {
   const [loading, setLoading] = useState(true);
@@ -41,9 +42,9 @@ const TableBody: React.FC<ItableBodyProps> = ({ skipPage, value }) => {
             <tr key={data.id}>
               <td>
                 <a href={"historical/" + data.id}>
-                  <h2>
+                  <motion.h2 whileHover={{ scale: 1.1, x: 15 }}>
                     <b>{data.name}</b>
-                  </h2>
+                  </motion.h2>
                 </a>
               </td>
               <td className="has-text-centered">
