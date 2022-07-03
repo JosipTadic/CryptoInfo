@@ -7,7 +7,7 @@ body {
 .columns {
   margin: 0 !important;
 }
-.custom-table-container{
+.custom-table-container {
   max-width: 100%;
 }
 .is-custom-phone-height {
@@ -15,6 +15,9 @@ body {
 }
 td {
   padding: 0.45rem 0.7rem !important;
+}
+.no-wrap {
+  white-space: nowrap;
 }
 @media (max-width: 1600px) {
   .is-custom-phone-height {
@@ -29,5 +32,14 @@ td {
 @media (max-width: 768px) {
   .is-custom-phone-height {
     height: 300px;
+  }
+  .spinner {
+    margin-top: 1rem;
+    width: 20%;
+  }
+}
+@media only screen and (min-device-width: 480px) and (max-device-width: 950px) and (max-device-height: 600px) and (orientation: landscape) {
+  .is-hidden-landscape {
+    display: none;
   }
 }

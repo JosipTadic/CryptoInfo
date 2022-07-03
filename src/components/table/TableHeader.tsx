@@ -26,7 +26,7 @@ const TableHeader: React.FC = () => {
         <td className="has-text-centered is-hidden-mobile">
           <h1>Change(1h)</h1>
         </td>
-        <td className="has-text-centered is-hidden-mobile">
+        <td className="has-text-centered is-hidden-mobile is-hidden-landscape">
           <h1>Change(15min)</h1>
         </td>
       </tr>

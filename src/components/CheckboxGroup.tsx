@@ -13,7 +13,7 @@ const CheckboxGroup: React.FC<IcheckBoxGroupProps> = ({
 }) => {
   return (
     <div className="has-text-centered columns">
-      <div className="m-1 column"></div>
+      <div className="m-1 column is-hidden-landscape"></div>
       <div className="m-1 column is-size-5">
         <Checkbox
           name={"showTwoCharts"}
@@ -38,7 +38,7 @@ const CheckboxGroup: React.FC<IcheckBoxGroupProps> = ({
           labelText={" Show lowest value"}
         />
       </div>
-      <div className="m-1 column"></div>
+      <div className="m-1 column is-hidden-landscape"></div>
     </div>
   );
 };

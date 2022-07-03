@@ -95,11 +95,11 @@ const TableBody: React.FC<ItableBodyProps> = ({ skipPage, value }) => {
                 </td>
               )}
               {checkIfNegative(data.quotes.USD.percent_change_15m) ? (
-                <td className="has-text-danger has-text-centered is-hidden-mobile">
+                <td className="has-text-danger has-text-centered is-hidden-mobile is-hidden-landscape">
                   <h3>{data.quotes.USD.percent_change_15m}%</h3>
                 </td>
               ) : (
-                <td className="has-text-success has-text-centered is-hidden-mobile">
+                <td className="has-text-success has-text-centered is-hidden-mobile is-hidden-landscape">
                   <h3>{data.quotes.USD.percent_change_15m}%</h3>
                 </td>
               )}

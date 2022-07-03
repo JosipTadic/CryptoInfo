@@ -16,7 +16,7 @@ const ItemPageHeader: React.FC<IitemPageHeader> = ({ itemPageTitle }) => {
           </Link>
         </div>
         <div className="column has-text-centered mt-5">
-          <h1 className="is-size-3">{itemPageTitle && itemPageTitle}</h1>
+          <h1 className="is-size-3 no-wrap">{itemPageTitle && itemPageTitle}</h1>
         </div>
         <div className="column  mt-5"></div>
       </div>

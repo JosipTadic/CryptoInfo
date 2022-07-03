@@ -3,7 +3,7 @@ import spinner from "../icons/spinner.gif";
 
 const Loading: FC = () => {
   return (
-    <img src={spinner} alt="loading animation"/>
+    <img src={spinner} alt="loading animation" className="spinner"/>
   );
 };
 
