@@ -95,14 +95,14 @@ const ItemPage: React.FC = () => {
           <div className="column is-half is-custom-phone-height">
             <h3 className="mb-2 is-size-5">Volume:</h3>
             {historicalData && (
-              <AreaChartVolume
-                getFormattedDate={getFormattedDate}
-                historicalData={historicalData}
-                showLocalHigh={showLocalHigh}
-                showLocalLow={showLocalLow}
-                volumeLocalHigh={volumeLocalHigh}
-                volumeLocalLow={volumeLocalLow}
-              />
+                  <AreaChartVolume
+                    getFormattedDate={getFormattedDate}
+                    historicalData={historicalData}
+                    showLocalHigh={showLocalHigh}
+                    showLocalLow={showLocalLow}
+                    volumeLocalHigh={volumeLocalHigh}
+                    volumeLocalLow={volumeLocalLow}
+                  />
             )}
           </div>
           <div className="column is-half is-custom-phone-height">
@@ -134,7 +134,9 @@ const ItemPage: React.FC = () => {
                 priceLocalHigh={priceLocalHigh}
                 priceLocalLow={priceLocalLow}
               />
-            ): <Loading />}
+            ) : (
+              <Loading />
+            )}
           </div>
         </div>
       )}
