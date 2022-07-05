@@ -154,6 +154,7 @@ const ItemPage: React.FC = () => {
         showLocalLow={showLocalLow}
         handleShowLocalLow={handleShowLocalLow}
       />
+      <hr />
       <div className="columns is-vcentered is-centered has-text-centered">
         <div className="column is-half is-vcentered is-centered">
           <div className="">

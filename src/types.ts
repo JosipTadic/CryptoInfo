@@ -8,6 +8,7 @@ export interface IcheckBoxProps {
   labelText: string;
   name: string;
   isChecked: boolean;
+  className?: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

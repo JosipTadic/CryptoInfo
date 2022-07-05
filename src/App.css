@@ -28,6 +28,9 @@ td {
   .is-custom-phone-height {
     height: 400px;
   }
+  .is-hidden-small-screens{
+    display: none;
+  }
 }
 @media (max-width: 768px) {
   .is-custom-phone-height {

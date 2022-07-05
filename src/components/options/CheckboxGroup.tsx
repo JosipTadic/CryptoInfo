@@ -13,13 +13,13 @@ const CheckboxGroup: React.FC<IcheckBoxGroupProps> = ({
 }) => {
   return (
     <div className="has-text-centered columns">
-      <div className="m-1 column is-hidden-landscape"></div>
       <div className="m-1 column is-size-5">
         <Checkbox
           name={"showTwoCharts"}
           isChecked={showTwoCharts}
           handleChange={handleIsTwoCharts}
           labelText={" Separate price and volume"}
+          className={"switch is-rounded is-outlined is-info"}
         />
       </div>
       <div className="m-1 column is-size-5">
@@ -28,6 +28,7 @@ const CheckboxGroup: React.FC<IcheckBoxGroupProps> = ({
           isChecked={showLocalHigh}
           handleChange={handleShowLocalHigh}
           labelText={" Show highest value"}
+          className={"switch is-rounded is-outlined is-info"}
         />
       </div>
       <div className="m-1 column is-size-5">
@@ -36,9 +37,9 @@ const CheckboxGroup: React.FC<IcheckBoxGroupProps> = ({
           isChecked={showLocalLow}
           handleChange={handleShowLocalLow}
           labelText={" Show lowest value"}
+          className={"switch is-rounded is-outlined is-info"}
         />
       </div>
-      <div className="m-1 column is-hidden-landscape"></div>
     </div>
   );
 };

@@ -6,6 +6,7 @@ const Checkbox: React.FC<IcheckBoxProps> = ({
   name,
   isChecked,
   handleChange,
+  className,
   labelText,
 }) => {
   return (
@@ -16,9 +17,12 @@ const Checkbox: React.FC<IcheckBoxProps> = ({
         name={name}
         value={name}
         checked={isChecked}
+        className={className}
         onChange={handleChange}
       />
-      <label htmlFor={name}>{labelText}</label>
+      <label className="is-size-5" htmlFor={name}>
+        {labelText}
+      </label>
     </>
   );
 };
