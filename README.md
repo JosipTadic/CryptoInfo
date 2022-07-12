@@ -45,19 +45,19 @@ Additional info is shown below charts
 
 ### Widescreen: 
 
-![image](https://user-images.githubusercontent.com/33669118/177045384-7a0fee6b-2402-4320-a671-8fcbfa47bf29.png)
+![git1](https://user-images.githubusercontent.com/33669118/178264060-cd3b4caf-2d2a-4fc1-9574-c159bf7887b9.png)
 
-![image](https://user-images.githubusercontent.com/33669118/177045436-133397d7-c3d7-4db8-b590-fdaf2d388da4.png)
+![git2](https://user-images.githubusercontent.com/33669118/178264345-1c215b8a-0487-440b-8cdc-7169add44833.png)
 
 ![image](https://user-images.githubusercontent.com/33669118/177045469-1399fca3-731d-491b-8fe3-1ca2937c9424.png)
 
 ### Mobile: 
 
-![image](https://user-images.githubusercontent.com/33669118/177045547-83ed381e-05a1-4a77-93a4-a3f98c598164.png)
+![git3](https://user-images.githubusercontent.com/33669118/178264480-c32558bd-489f-4345-b062-8f55126d7dc0.png)
 
-![image](https://user-images.githubusercontent.com/33669118/177045625-89f26bb0-b741-49c9-a112-7ca9dccbf6ce.png)
+![git44](https://user-images.githubusercontent.com/33669118/178264554-df7be8b2-5162-4474-9d07-83ffedad204c.PNG)
 
-![image](https://user-images.githubusercontent.com/33669118/177045605-a60c784e-5dec-473e-98e9-09f00bbfc0fb.png)
+![git4](https://user-images.githubusercontent.com/33669118/178264583-9c29fa61-960b-45bc-8b2c-dbdc64c74045.png)
 
 ![image](https://user-images.githubusercontent.com/33669118/177045652-63021bce-8f97-43db-807e-982c25b38866.png)
 
