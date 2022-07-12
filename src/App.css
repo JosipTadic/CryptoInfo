@@ -19,6 +19,9 @@ td {
 .no-wrap {
   white-space: nowrap;
 }
+.break-word{
+  word-break: break-word;
+}
 @media (max-width: 1600px) {
   .is-custom-phone-height {
     height: 450px;

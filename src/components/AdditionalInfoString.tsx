@@ -13,7 +13,7 @@ const AdditionalInfoString: React.FC<IcoinInfoDataString> = ({
     <div className="mt-5">
       {contract ? (
         <div className="m-2 pb-5 is-size-5">
-          <p>Contract: {contract}</p>
+          <p className="break-word">Contract: {contract}</p>
         </div>
       ) : (
         <></>
