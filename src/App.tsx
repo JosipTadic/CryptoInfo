@@ -7,7 +7,7 @@ import MainPage from "./components/views/MainPage";
 function App() {
   return (
     <div>
-      <nav>
+      <nav className="max-width">
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="historical/:id" element={<ItemPage />} />
